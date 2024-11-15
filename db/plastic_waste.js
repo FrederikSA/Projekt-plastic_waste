@@ -139,4 +139,4 @@ async function copyIntoTable(db, sql, file) {
 	}
 }
 
-hej132 test
+hej123

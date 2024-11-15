@@ -44,3 +44,4 @@ function onEachRequest(request, response, next) {
 function onServerReady() {
     console.log('Webserver running on port', port);
 }
+fucking virk kan du fat det

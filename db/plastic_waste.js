@@ -138,3 +138,5 @@ async function copyIntoTable(db, sql, file) {
 		client.release();
 	}
 }
+
+hej132 test

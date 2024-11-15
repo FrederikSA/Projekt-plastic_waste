@@ -138,5 +138,3 @@ async function copyIntoTable(db, sql, file) {
 		client.release();
 	}
 }
-
-hej123

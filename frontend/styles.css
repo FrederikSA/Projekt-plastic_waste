@@ -10,7 +10,7 @@ body {
   
   /* Hovedsektion */
   header {
-    background-color: #0a2940;
+    background-color: #092337;
     padding: 1em;
     text-align: center;
   }
@@ -37,7 +37,7 @@ body {
   
   /* Front earth barchart-sektion */
   .hero {
-    background: linear-gradient(to bottom, #0a2940, #1b4f77);
+    background: linear-gradient(to bottom, #092337, #154061);
     padding: 80px 20px;
     text-align: center;
   }
@@ -55,7 +55,7 @@ body {
   #plastic-end {
     display: flex;
     align-items: center;
-    background: linear-gradient(to bottom, #1b4f77, #266595);
+    background: linear-gradient(to bottom, #154061, #20567f);
     padding: 50px;
     color: #ffffff;
     text-align: center;
@@ -80,7 +80,7 @@ body {
 #plastic-production {
   display: flex;
   align-items: center;
-  background: linear-gradient(to bottom, #266595, #3988c4);
+  background: linear-gradient(to bottom, #20567f, #337bb2);
   padding: 50px;
   color: #ffffff;
   text-align: center;
@@ -105,7 +105,7 @@ body {
   #comparison {
     display: flex;
     align-items: center;
-    background: linear-gradient(to bottom, #3988c4, #4ba5eb);
+    background: linear-gradient(to bottom, #337bb2, #3b83b9);
     padding: 50px;
     color: #ffffff;
     text-align: center;

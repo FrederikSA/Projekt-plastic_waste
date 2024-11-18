@@ -19,6 +19,7 @@ const db = new pg.Pool({
 const dbResult = await db.query('select now()');
 console.log('Database connection established on', dbResult.rows[0].now);
 
+// Drop table if there is tables and create tables
 console.log('Recreating tables...');
 await db.query(`
 -- Slet tabeller, så de kan oprettes igen
@@ -104,6 +105,7 @@ Coastal_Waste_Risk text
 `);
 console.log('Tables recreated.');
 
+// Copy data from data-sets
 console.log('Copying data from CSV files...');
 await copyIntoTable(db, `
 	copy country (country_name, country_code)
@@ -127,6 +129,7 @@ await copyIntoTable(db, `
 	with (FORMAT csv, HEADER, DELIMITER ';')`, 'db/global-plastics-production.csv');
 console.log('Data copied.');
 
+// Insert data from temp to primary tables
 console.log('Inserting data from temp tables into final tables...');
 await db.query(`
    -- Insert into Global plastic production in tons

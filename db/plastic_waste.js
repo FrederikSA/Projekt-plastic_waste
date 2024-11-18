@@ -125,9 +125,40 @@ await copyIntoTable(db, `
 	copy global_plastic_production_temp (Entity, Code, Year, Annual_plastic_production)
 	from stdin
 	with (FORMAT csv, HEADER, DELIMITER ';')`, 'db/global-plastics-production.csv');
-await db.end();
 console.log('Data copied.');
 
+console.log('Inserting data from temp tables into final tables...');
+await db.query(`
+   -- Insert into Global plastic production in tons
+   insert into global_plastic_production (country_id, year, plastic_production)
+select (select country_id from country where country_name = t.entity) as country_id,
+      year,
+      Annual_plastic_production
+from   global_plastic_production_temp t;
+
+   -- Insert into plastic waste per capita in kg
+insert into plastic_per_capita (country_id, waste_kg_per_capita)
+select (select country_id from country where country_name = ct.entity) as country_id,
+     per_capita_waste_kg
+from   plastic_per_capita_temp ct;
+
+   -- Insert into recycling rate i %
+INSERT INTO recycling_info (country_id, recycling_rate)
+SELECT (SELECT country_id FROM country WHERE country_name = rt.country) AS country_id,
+  rt.recycling_rate
+FROM recycling_info_temp rt;
+
+   -- Insert into global plastic waste in metric ton
+INSERT INTO total_plastic_waste (country_id, total_plastic_waste_mt)
+SELECT (SELECT country_id FROM country WHERE country_name = tt.entity) AS country_id,
+  tt.mismanaged_waste_emitted_to_the_ocean_mt
+FROM total_plastic_waste_temp tt;
+`);
+console.log('Data inserted into final tables.');
+
+await db.end(); // Luk forbindelsespuljen til sidst
+console.log('Database connection closed.');
+    
 async function copyIntoTable(db, sql, file) {
 	const client = await db.connect();
 	try {

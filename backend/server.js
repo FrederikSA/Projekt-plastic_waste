@@ -21,7 +21,7 @@ console.log('Database connection established on', dbResult.rows[0].now);
 const port = process.env.PORT || 3000;
 const server = express();
 
-/*
+ /*
 server.use(express.static('frontend'));
 server.use(onEachRequest);
 server.get('/api/albums', onGetAlbums);
@@ -36,7 +36,7 @@ async function onGetAlbums(request, response) {
         [start, end]);
     response.send(dbResult.rows);
 }
-*/
+ */
 
 function onEachRequest(request, response, next) {
     console.log(new Date(), request.method, request.url);

@@ -36,7 +36,7 @@ body {
   }
   
   /* Front earth barchart-sektion */
-  #front {
+  #world-map {
     display: flex;
     align-items: center;
     background: linear-gradient(to bottom, #092337, #154061);
@@ -45,17 +45,17 @@ body {
     text-align: center;
   }
 
-  .hero {
+  .map-header {
     flex: 1;
     padding: 20px;
   }
     
-  .hero h2 {
+  .map-header h2 {
     font-size: 1.8em;
     margin-bottom: 10px;
   }
     
-  .hero p {
+  .map-header p {
     font-size: 1.1em;
     line-height: 1.5;
   }

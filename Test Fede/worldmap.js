@@ -1,10 +1,4 @@
-/*Copyright 2010-2024 Simplemaps.com
-html5worldmapv4.501 - trial version
-Use pursuant to license agreement at https://simplemaps.com/license */
 
-/* shifty - v1.5.3 - http://jeremyckahn.github.io/shifty, embedded within map logic*/
-
-/* Raphaël 2.1.2 (tweaked, always global)- JavaScript Vector Library, Copyright © 2008-2016 Dmitry Baranovskiy (http://raphaeljs.com), Copyright © 2008-2016 Sencha Labs (http://sencha.com), Licensed under the MIT (http://raphaeljs.com/license.html) license. */
 !(function (t) {
   var e, f, p, a, d, g, x, y, m;
   t.eve =
@@ -10523,10 +10517,10 @@ var simplemaps_worldmap_mapinfo = {
                 (W = s.findPos(ef)) && ((X = W[0]), (Q = W[1]));
             },
           })),
-        (K = a.navigation_color ? a.navigation_color : "#f7f7f7"),
+        (K = a.navigation_color ? a.navigation_color : "red"),
         (e0 = a.navigation_border_color
           ? a.navigation_border_color
-          : "#636363"),
+          : "white"),
         (e5 = a.navigation_opacity ? a.navigation_opacity : 0.8),
         (eZ = a.arrow_color ? a.arrow_color : K),
         (eU = a.arrow_color_border ? a.arrow_color_border : e0),
@@ -10795,6 +10789,7 @@ var simplemaps_worldmap_mapinfo = {
                 eE.hide();
               }
             })(),
+            
             (function e() {
               ev.style.setProperty("right", "0em"),
                 ev.style.setProperty("top", "0em");
@@ -10869,6 +10864,7 @@ var simplemaps_worldmap_mapinfo = {
                       !_.sm.hide &&
                       f.options.add(new Option(_.sm.name, _.sm.id));
                   }
+                  
                   (f.onchange = s.callback_closure(
                     { entry: m, dropdown: f },
                     function (e) {

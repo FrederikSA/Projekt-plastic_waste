@@ -2,6 +2,7 @@ import express from 'express';
 import pg from 'pg';
 import dotenv from 'dotenv';
 
+
 dotenv.config();
 console.log('Connecting to database', process.env.PG_DATABASE);
 const db = new pg.Pool({
@@ -20,6 +21,7 @@ console.log('Database connection established on', dbResult.rows[0].now);
 const port = process.env.PORT || 3000;
 const server = express();
 
+ /*
 server.use(express.static('frontend'));
 server.use(onEachRequest);
 server.get('/api/albums', onGetAlbums);
@@ -30,11 +32,11 @@ async function onGetAlbums(request, response) {
     const start = query.start;
     const end = query.end;
     const dbResult = await db.query(`
-        select *
-        from total_plastic_waste_temp`,
+        Skriv en vilkårlig select`,
         [start, end]);
     response.send(dbResult.rows);
 }
+ */
 
 function onEachRequest(request, response, next) {
     console.log(new Date(), request.method, request.url);

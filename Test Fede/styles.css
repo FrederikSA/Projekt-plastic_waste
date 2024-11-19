@@ -2,7 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     color: #ffffff;
-    background-color: #1a3d5d;
+    background-color: #092337;
     margin: 0;
     padding: 0;
     position: relative;
@@ -34,7 +34,45 @@ body {
     color: #b2e1f5;
     text-decoration: none;
   }
-  
+
+/* Overordnet styling for world-map sektionen */
+#world-map {
+  width: 100%; /* Sektionen fylder hele skærmens bredde */
+  text-align: center; /* Centrer indholdet */
+  margin: 0 auto; /* Sørger for, at hele sektionen er centreret */
+  background: linear-gradient(to bottom, #092337, #154061);
+}
+
+/* Styling af overskriften */
+.map-header {
+  margin: 0 auto; /* Centrer sektionen */
+  margin-bottom: 30px; /* Afstand mellem tekst og kort */
+  color: #ffffff; /* Tekstfarve */
+  width: 95%; /* Matcher bredden på kortcontaineren */
+  max-width: 1600px; /* Holder teksten i samme bredde som kortet */
+}
+
+/* Styling af overskriften */
+.map-header h2 {
+  font-size: 2em; /* Behold størrelsen */
+  margin: 20px 0 10px 0; /* Tilføj 20px top-margin for ekstra mellemrum */
+  text-align: center; /* Centrer teksten */
+}
+
+/* Kortcontainer */
+#map-container {
+  margin: 0 auto; /* Centrer kortet */
+  width: 95%; /* Gør bredden responsiv */
+  max-width: 1600px; /* Begræns bredden */
+  padding: 20px; /* Afstand indeni */
+  border: 2px solid #ffffff; /* Kant */
+  border-radius: 10px; /* Runde hjørner */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Skygge */
+  box-sizing: border-box; /* Korrekt padding */
+}
+
+
+
   /* Front earth barchart-sektion */
   #front {
     display: flex;
@@ -48,18 +86,18 @@ body {
   .hero {
     flex: 1;
     padding: 20px;
-  }
+    }
     
-  .hero h2 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-  }
+    .hero h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
     
-  .hero p {
-    font-size: 1.1em;
-    line-height: 1.5;
-  }
-  
+    .hero p {
+      font-size: 1.1em;
+      line-height: 1.5;
+    }
+
  /* Where do plastic end-sektion styling */
   #plastic-end {
     display: flex;
@@ -125,7 +163,7 @@ body {
     padding: 20px;
   }
   
-  .plastic_c h2 {
+  .plastic_c h {
     font-size: 1.8em;
     margin-bottom: 10px;
   }

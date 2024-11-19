@@ -5,27 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plastic in the Ocean</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link til styles.css -->
+    <script type="text/javascript" src="./mapdata.js"></script> <!-- ÆNDRET FILSTI -->
+    <script type="text/javascript" src="./worldmap.js"></script> <!-- ÆNDRET FILSTI -->
 </head>
 <body>
     <header>
         <h1>Plastic in the Ocean</h1>
         <nav>
             <ul>
-                <li><a href="#front">Front</a></li>
+                <li><a href="#world-map">Interactive World Map</a></li>
+        <!--    <li><a href="#front">Front</a></li>     -->
                 <li><a href="#plastic-end">Where do ocean plastic end</a></li>
                 <li><a href="#plastic-production">Global plastic production</a></li>
                 <li><a href="#comparison">Plastic comparison by water</a></li>
             </ul>
         </nav>
     </header>
+   
+<section id="world-map">
+    <!-- Overskrift over kortet -->
+    <div class="map-header">
+        <h2>Interactive World Map</h2>
+    </div>
     
-    <!-- Front_page earth chart section -->
-    <section id="front">
-        <div class="hero">
-            <h2>Where do ocean plastic end</h2>
-            <p>Oplev dybderne og skønheden ved havet.</p>
-        </div>
-    </section>
+    <!-- Kortboks -->
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+</section>
+
     
 
     <!-- Where plastic ends section -->
@@ -41,7 +49,7 @@
         <div class="plastic-p">
             <h2>Plastic comparison by water</h2>
             <p>Vil du i kontakt med os? Send en besked!</p>
-        </div>
+    </div>
     </section>
 
     <!-- Comparison section -->
@@ -52,5 +60,14 @@
         </div>
     </section>
 
+    <!-- Tilføj initialiseringskoden her -->
+    <script>
+        window.onload = function () {
+            simplemaps_worldmap.load(); // Initialiser kortet
+        };
+    </script>
+
+    <!-- Link til script -->
+    <script src="script.js"></script>
 </body>
 </html>

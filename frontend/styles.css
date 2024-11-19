@@ -36,19 +36,28 @@ body {
   }
   
   /* Front earth barchart-sektion */
-  .hero {
+  #front {
+    display: flex;
+    align-items: center;
     background: linear-gradient(to bottom, #092337, #154061);
-    padding: 80px 20px;
+    padding: 50px;
+    color: #ffffff;
     text-align: center;
   }
-  
-  .hero h2 {
-    font-size: 2em;
-    margin: 0;
+
+  .hero {
+    flex: 1;
+    padding: 20px;
   }
-  
+    
+  .hero h2 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+    
   .hero p {
-    font-size: 1.2em;
+    font-size: 1.1em;
+    line-height: 1.5;
   }
   
  /* Where do plastic end-sektion styling */
@@ -116,7 +125,7 @@ body {
     padding: 20px;
   }
   
-  .plastic_c h {
+  .plastic_c h2 {
     font-size: 1.8em;
     margin-bottom: 10px;
   }

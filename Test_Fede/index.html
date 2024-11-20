@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plastic in the Ocean</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link til styles.css -->
+    
+</head>
+<body>
+    <header>
+        <h1>Plastic in the Ocean</h1>
+        <nav>
+            <ul>
+                <li><a href="#world-map">Plastic in the ocean</a></li>
+                <li><a href="#plastic-end">Where do plastic end up?</a></li>
+                <li><a href="#plastic-production">Global plastic production</a></li>
+                <li><a href="#comparison">Plastic comparison by water</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Load worldmap d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+    </header>
+    
+    <!-- Front_page earth chart section -->
+    <section id="world-map">
+            <div id="map-container">
+                <svg id="my_dataviz" width="1300" height="700"></svg>
+            </div>
+            <script>
+                // The svg
+                var svg = d3.select("svg"),
+                    width = +svg.attr("width"),
+                    height = +svg.attr("height");
+                
+                // Map and projection
+                var projection = d3.geoNaturalEarth1()
+    .scale(width / 1.8 / Math.PI) // Reducerer skalaen en smule
+    .translate([width / 2, height / 1.8]); // Justerer fokuspunktet for bedre centreret visning
+
+                
+                // Load external data and boot
+                d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson", function(data){
+                
+                    // Draw the map
+                    svg.append("g")
+                        .selectAll("path")
+                        .data(data.features)
+                        .enter().append("path")
+                            .attr("fill", "#69b3a2")
+                            .attr("d", d3.geoPath()
+                                .projection(projection)
+                            )
+                            .style("stroke", "#fff")
+                })
+                
+                </script>
+    </section>
+    
+
+    <!-- Where plastic ends section -->
+    <section id="plastic-end">
+        <div class="plastic_e">
+            <h2>Where do plastic end up? (Stacked bar char)</h2>
+            <p>Vi er dedikeret til at bringe havets ro og skønhed til dig.</p>
+        </div>
+    </section>
+    
+    
+    <!-- Plastic production section -->
+    <section id="plastic-production">
+        <div class="plastic-p">
+            <h2>Global plastic production (Udviklings kurv)</h2>
+            <p>Vil du i kontakt med os? Send en besked!</p>
+        </div>
+    </section>
+
+    <!-- Comparison section -->
+    <section id="comparison">
+        <div class="plastic_c">
+            <h2>Plastic comparison by water (Dråbe der sammenligner vand med plast i havet)</h2>
+            <p>Verdenshavet dækker omkring 71% af Jordens overflade og indeholder 97% af al vandet på planeten. Gennemsnitsdybden er cirka 3.688 meter.</p>
+        </div>
+    </section>
+
+</body>
+</html>

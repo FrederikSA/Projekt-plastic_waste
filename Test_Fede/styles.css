@@ -65,6 +65,20 @@ body {
   background: linear-gradient(to bottom, #092337, #154061);
 }
 
+/* Hover med musen over kortet */
+.tooltip {
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  color: #000;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+
   /* Front earth barchart-sektion */
   #front {
     display: flex;

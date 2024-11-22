@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plastic in the Ocean</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link til styles.css -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <header>
@@ -40,8 +41,17 @@
     <!-- Plastic production section -->
     <section id="plastic-production">
         <div class="plastic-p">
-            <h2>Global plastic production (Udviklings kurv)</h2>
-            <p>Vil du i kontakt med os? Send en besked!</p>
+            <div>
+                <h2>Global Plastic Production Over Time</h2>
+              </div>
+                <svg></svg>
+                <div id="chart-info"> <!-- NYT: Info-sektion -->
+                    <div class="fact-box">
+                        <h3>Facts about plastic production</h3>
+                        <p> More than 350 million tonnes of plastic waste are produced globally each year since 2013. </p>
+                        <p>Over 40% of produced plastic is single-use plastic, used for less than a year.</p>
+                        <p> 19 million tonnes of plastic is leaked to the environment. 13 million tonnes to terrestrial environments, and 6 million tonnes to rivers or coastlines.</p>
+                <script src="script.js"></script>
         </div>
     </section>
 

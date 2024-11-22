@@ -28,6 +28,7 @@
     
     <!-- Front_page earth chart section -->
     <section id="world-map">
+        <div class="map-header">
             <div id="map-container">
                 <svg id="my_dataviz" width="1300" height="700"></svg>
             </div>
@@ -45,7 +46,7 @@
                 
                 // Load external data and boot
                 d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson", function(data){
-                
+    
                     // Draw the map
                     svg.append("g")
                         .selectAll("path")
@@ -56,9 +57,41 @@
                                 .projection(projection)
                             )
                             .style("stroke", "#fff")
-                })
+                            .on("click", function(d){
+                                d3.json("/api/countries?countryId="+d.id, function(countrydata) {
+                                    console.log(countrydata)
+                                })
+                            })
+                            .on("mouseover", function(event, d) {
+                // Ændrer farven ved hover
+                d3.select(this)
+                    .attr("fill", "#ffcc00");
+                
+                // Tooltip (valgfrit, hvis du vil vise info om landet)
+                d3.select("body").append("div")
+                    .attr("class", "tooltip")
+                    .style("position", "absolute")
+                    .style("background", "#ffffff")
+                    .style("color", "#000000")
+                    .style("padding", "5px")
+                    .style("border", "1px solid #ccc")
+                    .style("border-radius", "5px")
+                    .style("pointer-events", "none")
+                    .style("top", (event.pageY + 10) + "px")
+                    .style("left", (event.pageX + 10) + "px")
+            })
+            .on("mouseout", function(d) {
+                // Nulstiller farven
+                d3.select(this)
+                    .attr("fill", "#69b3a2");
+
+                // Fjerner tooltip
+                d3.select(".tooltip").remove();
+            });
+});
                 
                 </script>
+        </div>
     </section>
     
 

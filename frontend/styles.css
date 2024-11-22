@@ -109,6 +109,72 @@ body {
   font-size: 1.1em;
   line-height: 1.5;
 }
+/* svg line circle hver rect tooltip, er alle noget der er med til at design line ch*/
+svg {
+  width: 100%; /* Responsiv bredde */
+  height: 500px; /* Fast højde */
+  display: block;
+  margin: auto; /* Centrer SVG */
+}
+
+.line {
+  fill: none;
+  stroke: rgb(240, 243, 244);
+  stroke-width: 2px;
+}
+
+.circle {
+  fill: red;
+  stroke: none;
+  opacity: 0; /* Start skjult */
+}
+
+.hover-rect {
+  fill: none;
+  pointer-events: all;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  display: none; /* Start skjult */
+  z-index: 10;
+}
+
+#plastic-production {
+  position: relative; /* Sikrer, at fakta-boksen placeres i forhold til sektionen */
+}
+
+.fact-box {
+  position: absolute; /* Gør det muligt at placere den præcist */
+  top: 150px; /* Placerer fakta-boksen ved toppen af sektionen */
+  right: 50px; /* Placerer den til højre for grafen */
+  width: 420px; /* Øger bredden på fakta-boksen */
+  height: 60%; /* Matcher højden af grafen/sektionen */
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
+  color: #ffffff;
+  padding: 20px;
+  border: 1px solid #b2e1f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Let skygge */
+  display: flex; /* For bedre layout af indhold */
+  flex-direction: column; /* Stabler indholdet lodret */
+  justify-content: center; /* Centrerer indholdet lodret */
+  align-items: center; /* Centrerer indholdet vandret */
+}
+
+svg {
+  display: block;
+  margin-left: 0; /* Sørger for, at grafen holder sin plads */
+  margin-right: 380px; /* Giver plads til fakta-boksen på højre side */
+}
 
   /* Comparison-sektion styling */
   #comparison {

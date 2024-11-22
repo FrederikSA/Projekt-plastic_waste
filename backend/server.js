@@ -29,19 +29,22 @@ server.get("/api/linechart", onGetLineChart);
 server.listen(port, onServerReady);
 
 async function onGetCountries(request, response) {
-  const dbResult = await db.query(`
-        select c.country_id, c.country_name, c.country_code, pc.waste_kg_per_capita
+  const countryId = request.query.countryId;
+  const dbResult = await db.query(
+    `select c.country_id, c.country_name, c.country_code, pc.waste_kg_per_capita
 from country c
-inner join plastic_per_capita pc on c.country_id = pc.country_id`);
+inner join plastic_per_capita pc on c.country_id = pc.country_id
+where c.country_code = $1`,[countryId]
+  );
   response.send(dbResult.rows);
 }
 
 async function onGetLineChart(request, response) {
-    const dbResult = await db.query(`
+  const dbResult = await db.query(`
 select year, plastic_production
 from global_plastic_production`);
-    response.send(dbResult.rows);
-  }
+  response.send(dbResult.rows);
+}
 
 function onEachRequest(request, response, next) {
   console.log(new Date(), request.method, request.url);
@@ -51,5 +54,3 @@ function onEachRequest(request, response, next) {
 function onServerReady() {
   console.log("Webserver running on port", port);
 }
-
-

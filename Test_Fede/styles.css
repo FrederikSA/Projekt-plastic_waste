@@ -2,7 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     color: #ffffff;
-    background-color: #092337;
+    background-color: #154061;
     margin: 0;
     padding: 0;
     position: relative;
@@ -35,7 +35,7 @@ body {
     text-decoration: none;
   }
 
-/* Overordnet styling for world-map sektionen */
+ /* Overordnet styling for world-map sektionen */
 #world-map {
   width: 100%; /* Sektionen fylder hele skærmens bredde */
   text-align: center; /* Centrer indholdet */
@@ -52,30 +52,32 @@ body {
   max-width: 1600px; /* Holder teksten i samme bredde som kortet */
 }
 
-/* Styling af overskriften */
-.map-header h2 {
-  font-size: 2em; /* Behold størrelsen */
-  margin: 20px 0 10px 0; /* Tilføj 20px top-margin for ekstra mellemrum */
-  text-align: center; /* Centrer teksten */
-}
-
 /* Kortcontainer */
 #map-container {
   margin: 0 auto; /* Centrer kortet */
   width: 95%; /* Gør bredden responsiv */
   max-width: 1600px; /* Begræns bredden */
-  padding: 5px 20px 20px; /* Mindsk top-padding til 5px */
+  padding: 20px; /* Afstand indeni */
   border: 2px solid #ffffff; /* Kant */
-  border-radius: 20px; /* Runde hjørner */
+  border-radius: 10px; /* Runde hjørner */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Skygge */
   box-sizing: border-box; /* Korrekt padding */
+  background: linear-gradient(to bottom, #092337, #154061);
 }
 
-svg {
-  display: block;
-  margin: 0; /* Fjern unødvendig margin */
-  padding: 0; /* Fjern unødvendig padding */
+/* Hover med musen over kortet */
+.tooltip {
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  color: #000;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  pointer-events: none;
+  z-index: 1000;
 }
+
 
   /* Front earth barchart-sektion */
   #front {

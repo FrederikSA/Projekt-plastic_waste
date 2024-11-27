@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plastic in the Ocean</title>
     <link rel="stylesheet" href="styles.css"> <!-- Link til styles.css -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <header>
@@ -46,22 +45,39 @@
               </div>
                 <svg></svg>
                 <div id="chart-info"> <!-- NYT: Info-sektion -->
-                    <div class="fact-box">
+                    <div class="fact-box production">
                         <h3>Facts about plastic production</h3>
                         <p> More than 350 million tonnes of plastic waste are produced globally each year since 2013. </p>
                         <p>Over 40% of produced plastic is single-use plastic, used for less than a year.</p>
                         <p> 19 million tonnes of plastic is leaked to the environment. 13 million tonnes to terrestrial environments, and 6 million tonnes to rivers or coastlines.</p>
-                <script src="script.js"></script>
         </div>
     </section>
 
     <!-- Comparison section -->
     <section id="comparison">
-        <div class="plastic_c">
-            <h2>Plastic comparison by water (Dråbe der sammenligner vand med plast i havet)</h2>
-            <p>Verdenshavet dækker omkring 71% af Jordens overflade og indeholder 97% af al vandet på planeten. Gennemsnitsdybden er cirka 3.688 meter.</p>
+        <div class="plastic-c">
+            <div>
+                <h2>Plastic comparison by water</h2>
+              </div>
+              
+                    <div class="fact-box comparison">
+                        <h3>Facts about plastic production</h3>
+                        <p>The world's oceans cover about 71% of Earth's surface and contain 97% of all the water on the planet.</p>
+                        <p>It is estimated that around 1.7 million tonnes of plastic waste enter the oceans every year.</p>
+                        <p>This means there is approximately 15 grams of plastic per cubic meter of ocean water.</p>
+        </div>
+
+        <div id="visualization">
+            <div id="wave-container">
+                <div class="wave wave1"></div>
+                <div class="wave wave2"></div>
+            </div>
         </div>
     </section>
+        
 
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

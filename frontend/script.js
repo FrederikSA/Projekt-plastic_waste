@@ -55,9 +55,9 @@ fetch('/api/linechart')
       .attr("stroke-width", 2);
 
     // Tooltip
-    const tooltip = d3.select("body")
+    const graphTooltip = d3.select("body")
       .append("div")
-      .attr("class", "tooltip");
+      .attr("class", "tooltip graph-tooltip");
 
     // Cirkel til at følge musen. Laver en cirkel på line charten. den tydeliggøre størrelsen af cirklen, farven og gør cirklen usynlig til at starte med. 
     const circle = svg.append("circle")
@@ -94,7 +94,7 @@ fetch('/api/linechart')
 
           // Tooltip vises
           // Den er med til at cirklen fungere indenfor rektanglen. viser dataen der bliver vist det gældende sted man holder musen. Den skjuler tooltip når musen ikke er over grafen. 
-          tooltip
+          graphTooltip
             .style("display", "block")
             .html(`
               <strong>Year:</strong> ${closestData.year}<br>
@@ -105,8 +105,122 @@ fetch('/api/linechart')
         }
       })
       .on("mouseout", () => {
-        tooltip.style("display", "none"); // Skjul tooltip
+        graphTooltip.style("display", "none"); // Skjul tooltip
         circle.style("opacity", 0); // Skjul cirklen
       });
   })
   .catch(error => console.error("Fejl ved indlæsning af data:", error));
+
+
+
+
+
+  // Kaspers Visualisering
+
+const width = 800; // Bredden af visualiseringsområdet
+const height = 500; // Højden af visualiseringsområdet
+const plasticPercentage = 0.0001; // // Andelen af plastikaffald
+const totalParticles = Math.floor((width * height) * plasticPercentage); // Beregner det samlede antal plastikpartikler
+
+// Vælger containeren med id "visualization" til at tilføje elementer
+const container = d3.select("#visualization");
+
+// Funktion til at generere en tilfældig position og størrelse for en partikel
+function getRandomPosition() {
+    const x = Math.random() * (width); // Tilfældig x-position inden for bredden
+    const y = Math.random() * 100 + (height - 100); // Begrænser y til de nederste 300px
+    const size = Math.random() * 5 + 2; // Tilfældig størrelse på partikel mellem 2 og 7 pixels
+    return { x, y, size }; // Returnerer position og størrelse som et objekt
+}
+
+// Genererer de enkelte plastikpartikler og tilføjer dem til visualiseringen
+for (let i = 0; i < totalParticles; i++) {
+    const position = getRandomPosition(); // kalder funktionen getRandomPosition() og gemmer resultatet i variablen position
+
+    container.append("div") // Tilføjer en ny div til containeren
+        .attr("class", "plastic") // Giver div'en klassen "plastic"
+        .style("width", `${position.size}px`) // Sætter bredden af partiklen
+        .style("height", `${position.size}px`) // Sætter højden af partiklen
+        .style("left", `${position.x}px`) // Sætter x-positionen af partiklen
+        .style("top", `${position.y}px`); // Sætter y-positionen af partiklen
+}
+
+// Funktion til at skabe en fisk
+function createFish(className, color, startX, startY, direction) {
+    const fish = container.append("div") // Tilføjer en ny div for fisken
+        .attr("class", `fish ${className}`) // Giver fisken en klasse
+        .style("top", `${startY}px`) // Sætter start y-position
+        .style("left", `${startX}px`); // Sætter start x-position
+
+    const fishTail = fish.append("div") // Tilføjer et nyt ekstra div som repræsentere halen til fisken
+        .attr("class", "fish-tail") // Giver halen klassen "fish-tail"
+        .style("border-left-color", color); // Sætter farven på halen
+
+    const fishBody = fish.append("div") // På samme måde tilføjes fiskens krop
+        .attr("class", "fish-body") // Giver kroppen klassen "fish-body"
+        .style("background-color", color); // Sætter farven på kroppen
+
+    const fishEye = fishBody.append("div") // Tilføjer øjet til fisken på samme måde
+        .attr("class", "fish-eye"); // Giver øjet klassen "fish-eye"
+
+    animateFish(fish, direction); // Starter animationen af fisken
+}
+
+// Funktion til at animere fisken, så den svømmer kontinuerligt fra side til side
+function animateFish(fish, direction) {
+    const distance = direction === "right" ? width + 100 : -100; // Bestemmer hvor langt fisken skal svømme
+    const duration = 8000; // Tiden det tager fisken at svømme (i millisekunder)
+    const newStartX = direction === "right" ? -100 : width + 100; // Startpositionen når fisken vender
+
+// Funktionen `swim()` håndterer animationen af fisken, så den kontinuerligt svømmer frem og tilbage.
+    function swim() {
+        fish.transition() // Starter en transition (animation) for at få fisken til at bevæge sig jævnt fra én position til en anden
+            .duration(duration) // Indstiller, hvor lang tid det tager fisken at nå fra start til slutposition.
+            .ease(d3.easeLinear) // Anvender en lineær animation for konstant hastighed
+            .style("left", `${distance}px`) // Flytter fisken til slutpositionen
+            .on("end", () => { // Animationen slutter
+                fish.style("left", `${newStartX}px`); // Flytter fisken tilbage til startpositionen
+                swim(); // Starter animationen igen
+            });
+    }
+    swim(); // Starter svømningen
+}
+
+// Opret to svømmende fisk
+createFish("fish1", "orange", -100, 150, "right");
+createFish("fish2", "blue", width + 100, 250, "left");
+
+// Tilføj tooltip-element til body
+const oceanTooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip ocean-tooltip")
+    .style("opacity", 0); // Gør tooltip usynlig fra start
+
+// Tilføj mouseover, mousemove og mouseout events til visualiseringen
+d3.select("#visualization")
+
+    // Vis tooltip
+    .on("mouseover", function (event) {
+        oceanTooltip.transition() // Starter en transition for tooltip
+            .duration(200) // Varigheden af visningstransitionen
+            .style("opacity", 1); // Gør tooltip synlig
+
+        // Indsætter tekst i tooltip
+        oceanTooltip
+            .html("Around 0.5% of plastic waste ends up in the ocean")
+            .style("left", (event.pageX + 10) + "px") // Positionerer tooltip ved musen
+            .style("top", (event.pageY - 20) + "px"); 
+    })
+
+    // Vis tooltip, når musen kører over visualiseringen
+    .on("mousemove", function (event) {
+        oceanTooltip.style("left", (event.pageX + 10) + "px") // Opdaterer tooltipens x-position til 10 pixels til højre for musen
+            .style("top", (event.pageY - 20) + "px"); // Opdaterer tooltipens y-position til 20 pixels over musen
+    })
+
+    // Skjul tooltip, når musen forlader visualiseringen
+    .on("mouseout", function () {
+        oceanTooltip.transition() // Starter en transition for at skjule tooltip
+            .duration(200) // Varigheden af skjulningstransitionen
+            .style("opacity", 0); // Gør tooltip usynlig
+    });

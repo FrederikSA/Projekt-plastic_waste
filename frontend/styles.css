@@ -134,7 +134,7 @@ svg {
   pointer-events: all;
 }
 
-.tooltip {
+.graph-tooltip {
   position: absolute;
   background-color: #ffffff;
   color: #333333;
@@ -152,7 +152,7 @@ svg {
   position: relative; /* Sikrer, at fakta-boksen placeres i forhold til sektionen */
 }
 
-.fact-box {
+.fact-box.production {
   position: absolute; /* Gør det muligt at placere den præcist */
   top: 150px; /* Placerer fakta-boksen ved toppen af sektionen */
   right: 50px; /* Placerer den til højre for grafen */
@@ -186,17 +186,182 @@ svg {
     text-align: center;
   }
   
-  .plastic_c {
+  .plastic-c {
     flex: 1;
     padding: 20px;
   }
   
-  .plastic_c h2 {
+  .plastic-c h2 {
     font-size: 1.8em;
     margin-bottom: 10px;
   }
   
-  .plastic_c p {
+  .plastic-c p {
     font-size: 1.1em;
     line-height: 1.5;
   }
+
+
+
+
+  /* Comparison Visualisering */
+
+  /* Containeren for visualiseringen */
+#visualization {
+  width: 800px; /* Bredden af visualiseringen */
+  height: 500px; /* Højden af visualiseringen */
+  position: relative;
+  border: 5px solid #1f78b4; /* Blå kant rundt om visualiseringen */
+  background: linear-gradient(to top, #004d80, #87ceeb); /* Baggrund med gradient fra mørkeblå til lyseblå for at simulere vand */
+  border-radius: 10px; /* Afrunder hjørnerne på containeren */
+  overflow: hidden; /* Skjuler elementer, der bevæger sig uden for containeren */
+  margin-left: 510px;
+}
+
+/* Bølgeeffekt container */
+#wave-container {
+  position: absolute; /* Placerer bølgecontaineren absolut i forhold til visualiseringen */
+  width: 100%; /* Gør bølgecontaineren lige så bred som visualiseringen */
+  height: 100px; /* Højden af bølgecontaineren */
+  overflow: hidden; /* Skjuler elementer, der bevæger sig uden for containeren */
+}
+
+/* Styling for bølgerne */
+.wave {
+  position: absolute; /* Gør det muligt at placere bølgen præcist inden for containeren */
+  width: 200%; /* Gør bølgen bredere end containeren for at skabe en kontinuerlig bevægelse */
+  height: 100%; /* Højden af bølgen skal dække hele containerens højde */
+  background-repeat: repeat-x; /* Gentager bølgens baggrund horisontalt */
+  background-size: 50%; /* Sætter størrelsen på baggrundsbilledet */
+  animation: wave-animation 5s linear infinite; /* Animerer bølgen kontinuerligt med en varighed på 5 sekunder */
+}
+
+/* Første bølge med SVG-baggrund */
+.wave1 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100"><path d="M0,30 C300,90 600,10 1200,30 L1200,0 L0,0 Z" fill="%23ffffff" fill-opacity="0.5"/></svg>'); /* SVG-bølge med hvid farve og gennemsigtighed */
+  animation-delay: 0s; /* Ingen forsinkelse på animationen */
+}
+
+/* Anden bølge med en anden SVG-baggrund */
+.wave2 {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100"><path d="M0,40 C300,120 600,20 1200,40 L1200,0 L0,0 Z" fill="%2387ceeb" fill-opacity="0.4"/></svg>'); /* SVG-bølge med lyseblå farve og gennemsigtighed */
+  animation-delay: 0s; /* Ingen forsinkelse på animationen */
+}
+
+/* Bølge-animationens keyframes */
+@keyframes wave-animation {
+  0% {
+      transform: translateX(0); /* Starter bølgen ved dens udgangspunkt */
+  }
+  100% {
+      transform: translateX(-50%); /* Flytter bølgen halvdelen af dens bredde til venstre for at skabe en kontinuerlig bevægelse */
+  }
+}
+
+/* Styling for plastikpartiklerne */
+.plastic {
+  position: absolute; /* Gør det muligt at placere plastikpartiklerne præcist inden for containeren */
+  background-color: #e31a1c; /* Rød farve for at gøre plastikpartiklerne synlige */
+  border-radius: 50%; /* Gør partiklen rund */
+  animation: float 5s infinite ease-in-out; /* Tilføjer en flyde-animation til plastikpartiklerne */
+}
+
+/* Flyde-animationens keyframes for plastikpartiklerne */
+@keyframes float {
+  0% {
+      transform: translateY(0) rotate(0deg); /* Startpositionen for animationen */
+  }
+  25% {
+      transform: translate(-5px, -2px) rotate(5deg); /* Flytter og drejer partiklen for at give en glidende effekt */
+  }
+  50% {
+      transform: translate(-10px, -5px) rotate(15deg); /* Fortsætter med at flytte og dreje partiklen */
+  }
+  75% {
+      transform: translate(5px, 2px) rotate(-10deg); /* Ændrer retning for at efterligne tilfældig bevægelse */
+  }
+  100% {
+      transform: translateY(0) rotate(0deg); /* Tilbage til startpositionen */
+  }
+}
+
+/* Styling for fiskene */
+.fish {
+  position: absolute; /* Gør det muligt at placere fiskene præcist inden for containeren */
+  display: flex; /* Bruger flex display for nemmere at placere fiskeelementerne */
+  align-items: center; /* Centrerer fiskeelementerne lodret */
+  justify-content: center; /* Centrerer fiskeelementerne vandret */
+}
+
+/* Styling for fiskens krop */
+.fish-body {
+  width: 40px; /* Bredden på fiskens krop */
+  height: 40px; /* Højden på fiskens krop */
+  background-color: orange; /* Farven på fiskens krop */
+  border-radius: 50%; /* Gør kroppen cirkelformet */
+  position: relative; /* Gør det muligt at placere andre elementer relativt til kroppen */
+}
+
+/* Styling for fiskens øje */
+.fish-eye {
+  width: 6px; /* Bredden på øjet */
+  height: 6px; /* Højden på øjet */
+  background-color: black; /* Sort farve til øjet */
+  border-radius: 50%; /* Gør øjet rundt */
+  position: absolute; /* Gør det muligt at placere øjet præcist i forhold til kroppen */
+  top: 12px; /* Justerer placeringen af øjet lodret */
+  left: 28px; /* Justerer placeringen af øjet vandret */
+}
+
+/* Styling for fiskens hale */
+.fish-tail {
+  width: 0; /* Ingen bredde, så kun grænserne danner formen */
+  height: 0; /* Ingen højde, så kun grænserne danner formen */
+  border-top: 20px solid transparent; /* Gør toppen af halen usynlig for at skabe trekantform */
+  border-bottom: 20px solid transparent; /* Gør bunden af halen usynlig for at skabe trekantform */
+  border-left: 20px solid orange; /* Tilføjer farve til halens venstre kant for at skabe trekantform */
+  position: absolute; /* Gør det muligt at placere halen præcist i forhold til kroppen */
+  left: -15px; /* Placerer halen lidt til venstre for kroppen */
+}
+
+/* Styling til at spejlvende den blå fisk */
+.fish2 {
+  transform: scaleX(-1); /* Spejlvender fisken vandret */
+}
+
+/* Tooltip styling */
+.ocean-tooltip {
+  position: absolute; /* Gør tooltipen absolut positioneret i forhold til sit nærmeste positionerede element */
+  text-align: left; /* Justerer tekst til venstre */
+  padding: 10px; /* Tilføjer 10px padding omkring tooltipen */
+  background-color: white; /* Hvid baggrund for tooltipen */
+  color: #333333; /* Mørk tekstfarve for bedre kontrast */
+  border-radius: 5px; /* Afrunder hjørnerne af tooltipen */
+  border: 1px solid #ccc; /* Lys grå kant for at definere tooltipens grænse */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Let skygge for at give tooltipen dybde */
+  pointer-events: none; /* Forhindrer tooltipen i at interferere med museevents */
+  opacity: 0; /* Starter med at gøre tooltipen usynlig */
+}
+
+#comparison {
+  position: relative; /* Sikrer, at fakta-boksen placeres i forhold til sektionen */
+}
+
+.fact-box.comparison {
+  position: absolute; /* Gør det muligt at placere den præcist */
+  top: 150px; /* Placerer fakta-boksen ved toppen af sektionen */
+  right: 910px; /* Placerer den til højre for grafen */
+  width: 420px; /* Øger bredden på fakta-boksen */
+  height: 460px; /* Matcher højden af grafen/sektionen */
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
+  color: #ffffff;
+  padding: 20px;
+  border: 1px solid #b2e1f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Let skygge */
+  display: flex; /* For bedre layout af indhold */
+  flex-direction: column; /* Stabler indholdet lodret */
+  justify-content: center; /* Centrerer indholdet lodret */
+  align-items: center; /* Centrerer indholdet vandret */
+}
+

@@ -78,6 +78,21 @@ body {
   z-index: 1000;
 }
 
+/* Hvor hurtigt de andre lande skal dimme ud */
+path {
+  transition: fill 0.2s, opacity 0.2s;
+}
+
+/* Lande der bliver dæmpet */
+.dim {
+  opacity: 0.5;
+}
+
+/* Land der bliver fremhævet */
+.highlight {
+  opacity: 1;
+}
+
 
   /* Front earth barchart-sektion */
   #front {

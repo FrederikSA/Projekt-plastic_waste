@@ -42,7 +42,6 @@ body {
   margin-bottom: 10px; /* Afstand mellem knapper og kort */
   top: 70px; /* Flytter knapperne længere ned under stregen */
 }
-
 /* Knapper til world map*/
 #button-container button {
   background-color: #20567f; /* Blå baggrund */
@@ -54,7 +53,6 @@ body {
   font-size: 16px; /* Læsevenlig tekst */
   cursor: pointer; /* Ændrer musen til en pointer ved hover */
 }
-
 #button-container button:hover {
   background-color: #337bb2; /* Lysere blå ved hover */
 }
@@ -66,38 +64,6 @@ body {
   height: auto;
   text-align: center;
   background: linear-gradient(to bottom, #092337, #154061); /* Baggrundsfarve der matcher designet */
-}
-
-/* Infoboks til world map */
-#infoBoks {
-  position: absolute; /* Gør det muligt at placere infoboksen frit */
-  top: 45px; /* Placer infoboksen 0px fra toppen af sektionen */
-  left: 90px; /* Placer infoboksen 90px fra venstre side */
-}
-
-/* Farvebokse i inforboksen */
-#infoBoks rect {
-  width: 20px;
-  height: 20px;
-  stroke: black; /* Sort kant omkring bokse */
-  stroke-width: 1px;
-}
-
-/* Labels i infoboksen */
-#infoBoks text {
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  fill: #ffffff; /* Hvid tekstfarve */
-}
-
-
-/* Styling af overskriften */
-.map-header {
-  margin: 0 auto; /* Centrer sektionen */
-  margin-bottom: 30px; /* Afstand mellem tekst og kort */
-  color: #ffffff; /* Tekstfarve */
-  width: 95%; /* Matcher bredden på kortcontaineren */
-  max-width: 1600px; /* Holder teksten i samme bredde som kortet */
 }
 
 /* Kortcontainer */
@@ -113,12 +79,30 @@ body {
   background: linear-gradient(to bottom, #092337, #154061);
 }
 
+/* Infoboks til world map */
+#infoBoks {
+  position: absolute; /* Gør det muligt at placere infoboksen frit */
+  top: 40px; /* Placer infoboksen 0px fra toppen af sektionen */
+  left: 50px; /* Placer infoboksen 90px fra venstre side */
+}
+/* Farvebokse i inforboksen */
+#infoBoks rect {
+  width: 20px;
+  height: 20px;
+  stroke: black; /* Sort kant omkring bokse */
+  stroke-width: 1px;
+}
+/* Tekst i infoboksen */
+#infoBoks text {
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  fill: #ffffff; /* Hvid tekstfarve */
+}
+
 /* Hover med musen over kortet */
 .tooltip {
   font-size: 14px;
   font-family: Arial, sans-serif;
-  color: #000;
-  background: #ffffff;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 5px;
@@ -130,42 +114,14 @@ body {
 path {
   transition: fill 0.2s, opacity 0.2s;
 }
-
 /* Lande der bliver dæmpet */
 .dim {
   opacity: 0.5;
 }
-
 /* Land der bliver fremhævet */
 .highlight {
   opacity: 2;
 }
-
-
-  /* Front earth barchart-sektion */
-  #front {
-    display: flex;
-    align-items: center;
-    background: linear-gradient(to bottom, #092337, #154061);
-    padding: 50px;
-    color: #ffffff;
-    text-align: center;
-  }
-
-  .hero {
-    flex: 1;
-    padding: 20px;
-    }
-    
-    .hero h2 {
-      font-size: 1.8em;
-      margin-bottom: 10px;
-    }
-    
-    .hero p {
-      font-size: 1.1em;
-      line-height: 1.5;
-    }
 
  /* Where do plastic end-sektion styling */
   #plastic-end {

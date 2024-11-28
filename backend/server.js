@@ -22,11 +22,11 @@ console.log("Database connection established on", dbResult.rows[0].now);
 const port = process.env.PORT || 3000;
 const server = express();
 
-server.use(express.static("test_fede"));
+server.use(express.static("frontend"));
 server.use(onEachRequest);
 server.get("/api/percapita", onGetPerCapita);
 server.get("/api/totalwaste", onGetTotalWaste);
-server.get("/api/recyclinginfo", onGetRecyclingInfo);
+server.get("/api/recycleinfo", onGetRecycleInfo);
 server.get("/api/linechart", onGetLineChart);
 server.listen(port, onServerReady);
 
@@ -52,7 +52,7 @@ where c.country_code = $1`,[countryId]
   response.send(dbResult.rows);
 }
 
-async function onGetRecyclingInfo(request, response) {
+async function onGetRecycleInfo(request, response) {
   const countryId = request.query.countryId;
   const dbResult = await db.query(
     `select c.country_id, c.country_name, c.country_code, ri.recycling_rate

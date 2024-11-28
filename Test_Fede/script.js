@@ -8,6 +8,43 @@ var svg = d3.select("#my_dataviz"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
+// Opret SVG til infoboks til world map
+var infoBoksSvg = d3.select("#world-map")
+.append("svg")
+.attr("id", "infoBoks")
+.attr("width", 200)
+.attr("height", 300);
+
+// infoboks data
+var infoBoksData = [
+{ color: "grey", text: "Data mangler" },
+{ color: "#FFFFEA", text: "0 - 0.0025" },
+{ color: "#F2D6A2", text: "0.0025 - 0.0236" },
+{ color: "#F2A25C", text: "0.0236 - 0.1736" },
+{ color: "#D96E48", text: "0.1736 - 1" },
+{ color: "#8C5642", text: "1 - 3.3" }
+];
+
+// Tilføj farvebokse og tekst
+infoBoksData.forEach(function(d, i) {
+infoBoksSvg.append("rect")
+    .attr("x", 0)
+    .attr("y", 20 + i * 30)
+    .attr("width", 20)
+    .attr("height", 20)
+    .attr("fill", d.color)
+    .attr("stroke", "black");
+
+infoBoksSvg.append("text")
+    .attr("x", 30)
+    .attr("y", 35 + i * 30)
+    .text(d.text)
+    .style("font-size", "14px")
+    .style("font-family", "Arial, sans-serif")
+    .attr("alignment-baseline", "middle") /* Sørger for, at teksten er centreret med boksen */
+    .attr("fill", "#ffffff");
+});
+
 // Map and projection
 var projection = d3.geoNaturalEarth1()
     .scale(width / 1.8 / Math.PI) // Reducerer skalaen en smule
@@ -24,7 +61,7 @@ function waste(countrydata) {
 // Funktion til at hente farve baseret på landets plastikdata
 function getCountryColor(countryId) {
     return new Promise((resolve) => {
-        d3.json("/api/countries?countryId=" + countryId)
+        d3.json("/api/percapita?countryId=" + countryId)
             .then(function(countrydata) {
                 if (countrydata.length === 0) {
                     resolve("grey"); // Standardfarve for lande uden data
@@ -57,7 +94,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                     });
                 })
                 .on("click", function(event, d) {
-                    d3.json("/api/countries?countryId=" + d.id)
+                    d3.json("/api/percapita?countryId=" + d.id)
                         .then(function(countrydata) {
                             console.log(countrydata);
                         });
@@ -71,7 +108,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                     d3.select(this).classed("dim", false);
 
                     // Hent data for landet
-                    d3.json("/api/countries?countryId=" + d.id)
+                    d3.json("/api/percapita?countryId=" + d.id)
                         .then(function(countrydata) {
                             d3.select(".tooltip").remove();
 

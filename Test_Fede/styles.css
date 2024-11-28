@@ -35,13 +35,61 @@ body {
     text-decoration: none;
   }
 
- /* Overordnet styling for world-map sektionen */
-#world-map {
-  width: 100%; /* Sektionen fylder hele skærmens bredde */
-  text-align: center; /* Centrer indholdet */
-  margin: 0 auto; /* Sørger for, at hele sektionen er centreret */
-  background: linear-gradient(to bottom, #092337, #154061);
+/* Knapcontainer til world map */
+#button-container {
+  position: relative; /* Sørger for, at vi kan justere placeringen med top */
+  text-align: center; /* Centrerer knapperne over kortet */
+  margin-bottom: 10px; /* Afstand mellem knapper og kort */
+  top: 70px; /* Flytter knapperne længere ned under stregen */
 }
+
+/* Knapper til world map*/
+#button-container button {
+  background-color: #20567f; /* Blå baggrund */
+  color: white; /* Hvid tekst */
+  border: none; /* Ingen kant */
+  padding: 10px 20px; /* Gør knapperne lidt større */
+  margin: 0 5px; /* Giver lidt afstand mellem knapperne */
+  border-radius: 5px; /* Runde hjørner */
+  font-size: 16px; /* Læsevenlig tekst */
+  cursor: pointer; /* Ændrer musen til en pointer ved hover */
+}
+
+#button-container button:hover {
+  background-color: #337bb2; /* Lysere blå ved hover */
+}
+
+/* Placering af kortsektionen */
+#world-map {
+  position: relative; /* Gør det muligt at placere infoboksen absolut i forhold til sektionen */
+  width: 100%; /* Kortsektionen fylder hele bredden */
+  height: auto;
+  text-align: center;
+  background: linear-gradient(to bottom, #092337, #154061); /* Baggrundsfarve der matcher designet */
+}
+
+/* Infoboks til world map */
+#infoBoks {
+  position: absolute; /* Gør det muligt at placere infoboksen frit */
+  top: 45px; /* Placer infoboksen 0px fra toppen af sektionen */
+  left: 90px; /* Placer infoboksen 90px fra venstre side */
+}
+
+/* Farvebokse i inforboksen */
+#infoBoks rect {
+  width: 20px;
+  height: 20px;
+  stroke: black; /* Sort kant omkring bokse */
+  stroke-width: 1px;
+}
+
+/* Labels i infoboksen */
+#infoBoks text {
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  fill: #ffffff; /* Hvid tekstfarve */
+}
+
 
 /* Styling af overskriften */
 .map-header {
@@ -90,7 +138,7 @@ path {
 
 /* Land der bliver fremhævet */
 .highlight {
-  opacity: 1;
+  opacity: 2;
 }
 
 

@@ -12,14 +12,14 @@ function switchScript(scriptName) {
 }
 
 // Event listeners til knapperne
-document.getElementById("button1").addEventListener("click", function () {
-    switchScript("scriptd1.js"); // Skift til Dataset 1
+document.getElementById("PerCapita").addEventListener("click", function () {
+    switchScript("scriptd1.js"); // Skift til Total waste per capita
 });
 
-document.getElementById("button2").addEventListener("click", function () {
-    switchScript("scriptd2.js"); // Skift til Dataset 2
+document.getElementById("TotalWaste").addEventListener("click", function () {
+    switchScript("scriptd2.js"); // Skift til Total waste emitted to the ocean
 });
 
-document.getElementById("button3").addEventListener("click", function () {
-    switchScript("scriptd3.js"); // Skift til Dataset 3
+document.getElementById("Recycle").addEventListener("click", function () {
+    switchScript("scriptd3.js"); // Skift til Recycle info
 });

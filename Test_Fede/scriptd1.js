@@ -1,7 +1,13 @@
+// Fjern tidligere infoboks
+d3.select("#infoBoks").remove();
+
+// Fjern tidligere kort (hvis det findes)
+d3.select("#my_dataviz").selectAll("*").remove();
+
 // Farveskala
 var colorScale = d3.scaleLog()
-    .domain([0.000001, 0.0025, 0.0236, 0.1736, 1, 3.3]) // Tre trin: lave værdier, mellem, og outliers
-    .range(["#FFFFEA", "#F2D6A2", "#F2A25C", "#D96E48", "#8C5642"]); // Fra lys beige til mørkere orange
+    .domain([0.000001, 0.0025, 0.0236, 0.1736, 1, 3.3, 10]) // Intervaller
+    .range(["#FFFFEA", "#F2D6A2", "#F2A25C", "#D96E48", "#8C5642", "#5A2C2C", "#3E1A1A"]); // Farver til intervaller
 
 // The svg
 var svg = d3.select("#my_dataviz"),
@@ -17,13 +23,15 @@ var infoBoksSvg = d3.select("#world-map")
 
 // infoboks data
 var infoBoksData = [
-    { color: "grey", text: "No data" },
-    { color: "#FFFFEA", text: "0 - 0.0025" },
-    { color: "#F2D6A2", text: "0.0025 - 0.0236" },
-    { color: "#F2A25C", text: "0.0236 - 0.1736" },
-    { color: "#D96E48", text: "0.1736 - 1" },
-    { color: "#8C5642", text: "1 - 3.3" }
+    { color: "grey", text: "No data" },            // Grå for lande uden data
+    { color: "#FFFFEA", text: "0 - 0.0025 kg" },   // Lys beige
+    { color: "#F2D6A2", text: "0.0025 - 0.0236 kg" }, // Beige
+    { color: "#F2A25C", text: "0.0236 - 0.1736 kg" }, // Orange
+    { color: "#D96E48", text: "0.1736 - 1 kg" },      // Dyb orange
+    { color: "#8C5642", text: "1 - 3.3 kg" },         // Mørk brun
+    { color: "#3E1A1A", text: "3.3 - 10 kg" }         // Mørkere brun
 ];
+
 
 // Tilføj farvebokse
 infoBoksData.forEach(function(d, i) {
@@ -54,9 +62,9 @@ var projection = d3.geoNaturalEarth1()
 // Funktion til at give mig data hvis vi har data og ellers give mig Data mangler
 function waste(countrydata) {
     if (countrydata.length === 0) 
-        return "Data mangler";
+        return "No data";
     else 
-        return countrydata[0].waste_kg_per_capita;
+        return countrydata[0].waste_kg_per_capita + " kg";
 }
 
 // Funktion til at hente farve baseret på landets plastikdata
@@ -127,7 +135,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                                 .style("left", (event.pageX + 20) + "px")
                                 .html(`
                                     <strong>Country:</strong> ${d.properties.name || "Ukendt land"}<br>
-                                    <strong>Waste per capita in kg:</strong> ${waste(countrydata)}
+                                    <strong>Waste per capita:</strong> ${waste(countrydata)}
                                 `);
                         });
                 })

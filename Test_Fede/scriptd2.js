@@ -1,7 +1,15 @@
+// Fjern tidligere infoboks
+d3.select("#infoBoks").remove();
+
+// Fjern tidligere kort (hvis det findes)
+d3.select("#my_dataviz").selectAll("*").remove();
+
+
 // Farveskala
 var colorScale = d3.scaleLog()
-    .domain([1, 10, 250, 1000, 10000, 400000]) // Intervaller for dataset 2
-    .range(["#808080", "#F8FCFF", "#B2D5E7", "#71B1D9", "#538DC5", "#3E5A89"]);
+    .domain([1, 10, 250, 1000, 10000, 400000, 1000000]) // Intervaller
+    .range(["#F8FCFF", "#B2D5E7", "#71B1D9", "#538DC5", "#3E5A89", "#1E3A56", "#0A1C33"]); // Farver til intervaller
+
 
 
 // The svg
@@ -18,12 +26,13 @@ var infoBoksSvg = d3.select("#world-map")
 
 // infoboks data
 var infoBoksData = [
-    { color: "#808080", text: "No data" },     // Grå for lande uden data
+    { color: "grey", text: "No data" },     // Grå for lande uden data
     { color: "#F8FCFF", text: "0 - 10 Tons" },      // Lys blå
     { color: "#B2D5E7", text: "10 - 250 Tons" },    // Blågrøn
     { color: "#71B1D9", text: "250 - 1.000 Tons" }, // Medium blå
     { color: "#538DC5", text: "1.000 - 10.000 Tons" }, // Dyb blå
-    { color: "#3E5A89", text: "10.000 - 400.000 Tons" } // Mørk blå
+    { color: "#3E5A89", text: "10.000 - 400.000 Tons" }, // Mørk blå
+    { color: "#0A1C33", text: "400.000 - 1.000.000 Tons" } // Mørkere blå
 ];
 
 // Tilføj farvebokse
@@ -55,9 +64,9 @@ var projection = d3.geoNaturalEarth1()
 // Funktion til at give mig data hvis vi har data og ellers give mig Data mangler
 function waste(countrydata) {
     if (countrydata.length === 0) 
-        return "Data mangler";
+        return "No data";
     else 
-        return countrydata[0].total_plastic_waste_mt;
+        return countrydata[0].total_plastic_waste_mt + " metric tons";
 }
 
 // Funktion til at hente farve baseret på landets plastikdata
@@ -128,7 +137,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                                 .style("left", (event.pageX + 20) + "px")
                                 .html(`
                                     <strong>Country:</strong> ${d.properties.name || "Ukendt land"}<br>
-                                    <strong>Waste per capita in kg:</strong> ${waste(countrydata)}
+                                    <strong>Total waste:</strong> ${waste(countrydata)}
                                 `);
                         });
                 })

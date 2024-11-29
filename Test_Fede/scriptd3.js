@@ -1,7 +1,13 @@
+// Fjern tidligere infoboks
+d3.select("#infoBoks").remove();
+
+// Fjern tidligere kort (hvis det findes)
+d3.select("#my_dataviz").selectAll("*").remove();
+
 // Farveskala
 var colorScale = d3.scaleLog()
-    .domain([1, 15, 35, 55, 75, 90]) // Recycling Rate intervaller
-    .range(["#eef9e0", "#C7E9C0", "#7FCDBB", "#41B6C4", "#2C7FB8", "#08306B"]);
+    .domain([0.01, 5, 25, 45, 65, 85]) // Recycling Rate intervaller
+    .range(["#eef9e0", "#C7E9C0", "#7FCDBB", "#41a891", "#317e6c", "#215448"]); // Farver til intervaller
 
 // The svg
 var svg = d3.select("#my_dataviz"),
@@ -17,13 +23,15 @@ var infoBoksSvg = d3.select("#world-map")
 
 // infoboks data
 var infoBoksData = [
-    { color: "grey", text: "No data" },
-    { color: "#FFFFEA", text: "0 - 0.0025" },
-    { color: "#F2D6A2", text: "0.0025 - 0.0236" },
-    { color: "#F2A25C", text: "0.0236 - 0.1736" },
-    { color: "#D96E48", text: "0.1736 - 1" },
-    { color: "#8C5642", text: "1 - 3.3" }
+    { color: "grey", text: "No data" },     // Grå for lande uden data
+    { color: "#eef9e0", text: "0% - 5%" }, // Lys grøn
+    { color: "#C7E9C0", text: "5% - 25%" }, // Grøn
+    { color: "#7FCDBB", text: "25% - 45%" }, // Blågrøn
+    { color: "#41a891", text: "45% - 65%" }, // Mellemblå
+    { color: "#317e6c", text: "65% - 85%" }, // Dyb blå
+    { color: "#215448", text: "85% - 100%" } // Mørk blå
 ];
+
 
 // Tilføj farvebokse
 infoBoksData.forEach(function(d, i) {
@@ -54,9 +62,9 @@ var projection = d3.geoNaturalEarth1()
 // Funktion til at give mig data hvis vi har data og ellers give mig Data mangler
 function waste(countrydata) {
     if (countrydata.length === 0) 
-        return "Data mangler";
+        return "No data";
     else 
-        return countrydata[0].recycling_rate;
+        return countrydata[0].recycling_rate + "%";
 }
 
 // Funktion til at hente farve baseret på landets plastikdata
@@ -127,7 +135,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                                 .style("left", (event.pageX + 20) + "px")
                                 .html(`
                                     <strong>Country:</strong> ${d.properties.name || "Ukendt land"}<br>
-                                    <strong>Waste per capita in kg:</strong> ${waste(countrydata)}
+                                    <strong>Recycling rate:</strong> ${waste(countrydata)}
                                 `);
                         });
                 })

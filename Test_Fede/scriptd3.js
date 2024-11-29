@@ -1,7 +1,7 @@
 // Farveskala
 var colorScale = d3.scaleLog()
-    .domain([0.000001]) // Tre trin: lave værdier, mellem, og outliers
-    .range(["#FFFFEA"]); // Fra lys beige til mørkere orange
+    .domain([1, 15, 35, 55, 75, 90]) // Recycling Rate intervaller
+    .range(["#eef9e0", "#C7E9C0", "#7FCDBB", "#41B6C4", "#2C7FB8", "#08306B"]);
 
 // The svg
 var svg = d3.select("#my_dataviz"),

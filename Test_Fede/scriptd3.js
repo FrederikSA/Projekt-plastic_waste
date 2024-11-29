@@ -10,19 +10,19 @@ var svg = d3.select("#my_dataviz"),
 
 // Opret SVG til infoboks til world map
 var infoBoksSvg = d3.select("#world-map")
-.append("svg")
-.attr("id", "infoBoks")
-.attr("width", 200)
-.attr("height", 300);
+    .append("svg")
+    .attr("id", "infoBoks")
+    .attr("width", 200)
+    .attr("height", 300);
 
 // infoboks data
 var infoBoksData = [
-{ color: "grey", text: "Data mangler" },
-{ color: "#FFFFEA", text: "0 - 0.0025" },
-{ color: "#F2D6A2", text: "0.0025 - 0.0236" },
-{ color: "#F2A25C", text: "0.0236 - 0.1736" },
-{ color: "#D96E48", text: "0.1736 - 1" },
-{ color: "#8C5642", text: "1 - 3.3" }
+    { color: "grey", text: "No data" },
+    { color: "#FFFFEA", text: "0 - 0.0025" },
+    { color: "#F2D6A2", text: "0.0025 - 0.0236" },
+    { color: "#F2A25C", text: "0.0236 - 0.1736" },
+    { color: "#D96E48", text: "0.1736 - 1" },
+    { color: "#8C5642", text: "1 - 3.3" }
 ];
 
 // Tilføj farvebokse

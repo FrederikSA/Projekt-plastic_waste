@@ -6,34 +6,63 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
-  }
+}
   
-  /* Hovedsektion */
-  header {
-    background-color: #092337;
-    padding: 1em;
-    text-align: center;
-  }
+/* Hovedsektion */
+header {
+  background-color: #092337;
+  padding: 1em;
+  text-align: center;
+}
   
-  h1 {
-    font-size: 2.5em;
-    margin: 0;
-  }
+h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
   
-  nav ul {
-    list-style-type: none;
-    padding: 0;
-  }
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
   
-  nav ul li {
-    display: inline;
-    margin: 0 15px;
-  }
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
   
-  nav ul li a {
-    color: #b2e1f5;
-    text-decoration: none;
-  }
+nav ul li a {
+  color: #b2e1f5;
+  text-decoration: none;
+}
+
+/* Knapcontainer til head */
+#button-container-head {
+  background-color: #1c4f77; /* Blå baggrund */
+  color: white; /* Hvid tekst */
+  border: none; /* Ingen kant */
+  padding: 10px 15px; /* Gør knapperne lidt større */
+  margin: 0 5px; /* Giver lidt afstand mellem knapperne */
+  border-radius: 5px; /* Runde hjørner */
+  font-size: 16px; /* Læsevenlig tekst */
+  cursor: pointer; /* Ændrer musen til en pointer ved hover */
+}
+#button-container-head:hover {
+  background-color: #337bb2; /* Lysere blå ved hover */
+}
+
+#button-hover-head {
+  color: white; /* Hvid tekst */
+}
+#button-hover-head:hover {
+  background-color: #1c4f77; /* Lysere blå ved hover */
+  color: white; /* Hvid tekst */
+  border: none; /* Ingen kant */
+  padding: 10px 10px; /* Gør knapperne lidt større */
+  margin: 0 5px; /* Giver lidt afstand mellem knapperne */
+  border-radius: 5px; /* Runde hjørner */
+  font-size: 16px; /* Læsevenlig tekst */
+  cursor: pointer; /* Ændrer musen til en pointer ved hover */
+}
 
 /* Knapcontainer til world map */
 #button-container {

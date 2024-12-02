@@ -115,14 +115,14 @@ fetch('/api/linechart')
 
 
 
-  // Kaspers Visualisering
+  // Comparison Visualisering
 
 const width = 800; // Bredden af visualiseringsområdet
 const height = 500; // Højden af visualiseringsområdet
 const plasticPercentage = 0.0001; // // Andelen af plastikaffald
 const totalParticles = Math.floor((width * height) * plasticPercentage); // Beregner det samlede antal plastikpartikler
 
-// Vælger containeren med id "visualization" til at tilføje elementer
+// "container", som indeholder en reference til HTML-elementet med id "visualization" ved hjælp af D3.js
 const container = d3.select("#visualization");
 
 // Funktion til at generere en tilfældig position og størrelse for en partikel
@@ -186,7 +186,7 @@ function animateFish(fish, direction) {
     swim(); // Starter svømningen
 }
 
-// Opret to svømmende fisk
+// Opretter to svømmende fisk
 createFish("fish1", "orange", -100, 150, "right");
 createFish("fish2", "blue", width + 100, 250, "left");
 

@@ -178,17 +178,10 @@ svg {
 
   /* Comparison-sektion styling */
   #comparison {
-    display: flex;
-    align-items: center;
     background: linear-gradient(to bottom, #337bb2, #3b83b9);
     padding: 50px;
     color: #ffffff;
     text-align: center;
-  }
-  
-  .plastic-c {
-    flex: 1;
-    padding: 20px;
   }
   
   .plastic-c h2 {
@@ -215,7 +208,6 @@ svg {
   background: linear-gradient(to top, #004d80, #87ceeb); /* Baggrund med gradient fra mørkeblå til lyseblå for at simulere vand */
   border-radius: 10px; /* Afrunder hjørnerne på containeren */
   overflow: hidden; /* Skjuler elementer, der bevæger sig uden for containeren */
-  margin-left: 510px;
 }
 
 /* Bølgeeffekt container */
@@ -343,21 +335,26 @@ svg {
   opacity: 0; /* Starter med at gøre tooltipen usynlig */
 }
 
-#comparison {
-  position: relative; /* Sikrer, at fakta-boksen placeres i forhold til sektionen */
+.columns-two {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
+.left-column, .right-column {
+  vertical-align: top;
+  padding: 20px;
+}
+
+
 .fact-box.comparison {
-  position: absolute; /* Gør det muligt at placere den præcist */
-  top: 150px; /* Placerer fakta-boksen ved toppen af sektionen */
-  right: 910px; /* Placerer den til højre for grafen */
   width: 420px; /* Øger bredden på fakta-boksen */
-  height: 460px; /* Matcher højden af grafen/sektionen */
+  height: 500px; /* Matcher højden af grafen/sektionen */
   background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
   color: #ffffff;
   padding: 20px;
   border: 1px solid #b2e1f5;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Let skygge */
   display: flex; /* For bedre layout af indhold */
   flex-direction: column; /* Stabler indholdet lodret */

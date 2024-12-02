@@ -6,50 +6,78 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
-  }
+}
   
-  /* Hovedsektion */
-  header {
-    background-color: #092337;
-    padding: 1em;
-    text-align: center;
-  }
+/* Hovedsektion */
+header {
+  background-color: #092337;
+  padding: 1em;
+  text-align: center;
+}
   
-  h1 {
-    font-size: 2.5em;
-    margin: 0;
-  }
+h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
   
-  nav ul {
-    list-style-type: none;
-    padding: 0;
-  }
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
   
-  nav ul li {
-    display: inline;
-    margin: 0 15px;
-  }
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
   
-  nav ul li a {
-    color: #b2e1f5;
-    text-decoration: none;
-  }
-
- /* Overordnet styling for world-map sektionen */
-#world-map {
-  width: 100%; /* Sektionen fylder hele skærmens bredde */
-  text-align: center; /* Centrer indholdet */
-  margin: 0 auto; /* Sørger for, at hele sektionen er centreret */
-  background: linear-gradient(to bottom, #092337, #154061);
+nav ul li a {
+  color: #b2e1f5;
+  text-decoration: none;
 }
 
-/* Styling af overskriften */
-.map-header {
-  margin: 0 auto; /* Centrer sektionen */
-  margin-bottom: 30px; /* Afstand mellem tekst og kort */
-  color: #ffffff; /* Tekstfarve */
-  width: 95%; /* Matcher bredden på kortcontaineren */
-  max-width: 1600px; /* Holder teksten i samme bredde som kortet */
+#button-hover-head {
+  color: white; /* Hvid tekst */
+}
+#button-hover-head:hover {
+  background-color: #1c4f77; /* Lysere blå ved hover */
+  color: white; /* Hvid tekst */
+  border: none; /* Ingen kant */
+  padding: 10px 10px; /* Gør knapperne lidt større */
+  margin: 0 5px; /* Giver lidt afstand mellem knapperne */
+  border-radius: 5px; /* Runde hjørner */
+  font-size: 16px; /* Læsevenlig tekst */
+  cursor: pointer; /* Ændrer musen til en pointer ved hover */
+}
+
+/* Knapcontainer til world map */
+#button-container {
+  position: relative; /* Sørger for, at vi kan justere placeringen med top */
+  text-align: center; /* Centrerer knapperne over kortet */
+  margin-bottom: 10px; /* Afstand mellem knapper og kort */
+  top: 70px; /* Flytter knapperne længere ned under stregen */
+}
+/* Knapper til world map*/
+#button-container button {
+  background-color: #20567f; /* Blå baggrund */
+  color: white; /* Hvid tekst */
+  border: none; /* Ingen kant */
+  padding: 10px 20px; /* Gør knapperne lidt større */
+  margin: 0 5px; /* Giver lidt afstand mellem knapperne */
+  border-radius: 5px; /* Runde hjørner */
+  font-size: 16px; /* Læsevenlig tekst */
+  cursor: pointer; /* Ændrer musen til en pointer ved hover */
+}
+#button-container button:hover {
+  background-color: #337bb2; /* Lysere blå ved hover */
+}
+
+/* Placering af kortsektionen */
+#world-map {
+  position: relative; /* Gør det muligt at placere infoboksen absolut i forhold til sektionen */
+  width: 100%; /* Kortsektionen fylder hele bredden */
+  height: auto;
+  text-align: center;
+  background: linear-gradient(to bottom, #092337, #154061); /* Baggrundsfarve der matcher designet */
 }
 
 /* Kortcontainer */
@@ -65,12 +93,30 @@ body {
   background: linear-gradient(to bottom, #092337, #154061);
 }
 
-/* Hover med musen over kortet */
-.tooltip {
+/* Infoboks til world map */
+#infoBoks {
+  position: absolute; /* Gør det muligt at placere infoboksen frit */
+  top: 40px; /* Placer infoboksen 0px fra toppen af sektionen */
+  left: 50px; /* Placer infoboksen 90px fra venstre side */
+}
+/* Farvebokse i inforboksen */
+#infoBoks rect {
+  width: 20px;
+  height: 20px;
+  stroke: black; /* Sort kant omkring bokse */
+  stroke-width: 1px;
+}
+/* Tekst i infoboksen */
+#infoBoks text {
   font-size: 14px;
   font-family: Arial, sans-serif;
-  color: #000;
-  background: #ffffff;
+  fill: #ffffff; /* Hvid tekstfarve */
+}
+
+/* Hover med musen over kortet */
+.tooltipmap {
+  font-size: 14px;
+  font-family: Arial, sans-serif;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 5px;
@@ -78,31 +124,18 @@ body {
   z-index: 1000;
 }
 
-
-  /* Front earth barchart-sektion */
-  #front {
-    display: flex;
-    align-items: center;
-    background: linear-gradient(to bottom, #092337, #154061);
-    padding: 50px;
-    color: #ffffff;
-    text-align: center;
-  }
-
-  .hero {
-    flex: 1;
-    padding: 20px;
-    }
-    
-    .hero h2 {
-      font-size: 1.8em;
-      margin-bottom: 10px;
-    }
-    
-    .hero p {
-      font-size: 1.1em;
-      line-height: 1.5;
-    }
+/* Hvor hurtigt de andre lande skal dimme ud */
+path {
+  transition: fill 0.2s, opacity 0.2s;
+}
+/* Lande der bliver dæmpet */
+.dim {
+  opacity: 0.5;
+}
+/* Land der bliver fremhævet */
+.highlight {
+  opacity: 2;
+}
 
  /* Where do plastic end-sektion styling */
   #plastic-end {

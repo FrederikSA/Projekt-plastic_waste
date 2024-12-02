@@ -24,16 +24,40 @@ const server = express();
 
 server.use(express.static("frontend"));
 server.use(onEachRequest);
-server.get("/api/countries", onGetCountries);
+server.get("/api/percapita", onGetPerCapita);
+server.get("/api/totalwaste", onGetTotalWaste);
+server.get("/api/recycleinfo", onGetRecycleInfo);
 server.get("/api/linechart", onGetLineChart);
 server.listen(port, onServerReady);
 
-async function onGetCountries(request, response) {
+async function onGetPerCapita(request, response) {
   const countryId = request.query.countryId;
   const dbResult = await db.query(
-    `select c.country_id, c.country_name, c.country_code, pc.waste_kg_per_capita
+    `select c.country_id, c.country_name, c.country_code, ROUND(pc.waste_kg_per_capita, 4) AS waste_kg_per_capita
 from country c
 inner join plastic_per_capita pc on c.country_id = pc.country_id
+where c.country_code = $1`,[countryId]
+  );
+  response.send(dbResult.rows);
+}
+
+async function onGetTotalWaste(request, response) {
+  const countryId = request.query.countryId;
+  const dbResult = await db.query(
+    `select c.country_id, c.country_name, c.country_code, tpw.total_plastic_waste_mt
+from country c
+inner join total_plastic_waste tpw on c.country_id = tpw.country_id
+where c.country_code = $1`,[countryId]
+  );
+  response.send(dbResult.rows);
+}
+
+async function onGetRecycleInfo(request, response) {
+  const countryId = request.query.countryId;
+  const dbResult = await db.query(
+    `select c.country_id, c.country_name, c.country_code, ri.recycling_rate
+from country c
+inner join recycling_info ri on c.country_id = ri.country_id
 where c.country_code = $1`,[countryId]
   );
   response.send(dbResult.rows);

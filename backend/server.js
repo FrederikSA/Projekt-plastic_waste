@@ -22,7 +22,7 @@ console.log("Database connection established on", dbResult.rows[0].now);
 const port = process.env.PORT || 3000;
 const server = express();
 
-server.use(express.static("frontend"));
+server.use(express.static("test_fede"));
 server.use(onEachRequest);
 server.get("/api/percapita", onGetPerCapita);
 server.get("/api/totalwaste", onGetTotalWaste);
@@ -33,7 +33,7 @@ server.listen(port, onServerReady);
 async function onGetPerCapita(request, response) {
   const countryId = request.query.countryId;
   const dbResult = await db.query(
-    `select c.country_id, c.country_name, c.country_code, pc.waste_kg_per_capita
+    `select c.country_id, c.country_name, c.country_code, ROUND(pc.waste_kg_per_capita, 3) AS waste_kg_per_capita
 from country c
 inner join plastic_per_capita pc on c.country_id = pc.country_id
 where c.country_code = $1`,[countryId]

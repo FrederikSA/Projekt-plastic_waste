@@ -22,7 +22,7 @@ console.log("Database connection established on", dbResult.rows[0].now);
 const port = process.env.PORT || 3000;
 const server = express();
 
-server.use(express.static("test_fede"));
+server.use(express.static("frontend"));
 server.use(onEachRequest);
 server.get("/api/percapita", onGetPerCapita);
 server.get("/api/totalwaste", onGetTotalWaste);

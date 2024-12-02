@@ -32,6 +32,7 @@ drop table if exists total_plastic_waste_temp;
 drop table if exists global_plastic_production_temp;
 drop table if exists recycling_info_temp;
 drop table if exists country;
+drop table if exists plastic_end_up;
 
 -- Tabel til landeoplysninger
 CREATE TABLE country (
@@ -69,6 +70,13 @@ create table global_plastic_production (
 	plastic_production integer
 );
 
+-- Tabel til Where plastic ends up
+create table plastic_end_up (
+    Category text, 
+    Subcategory text, 
+    Percentage integer
+);
+
 -- Tabel til at temp overføre plastic_per_capita
 create table plastic_per_capita_temp (
     Entity text,
@@ -79,28 +87,28 @@ create table plastic_per_capita_temp (
 
 -- Tabel til at temp overføre Plastic-waste-emitted-to-the-ocean
 create table total_plastic_waste_temp (
-Entity text,
-Code text, 
-year integer,
-Mismanaged_waste_emitted_to_the_ocean_mt integer
+    Entity text,
+    Code text, 
+    year integer,
+    Mismanaged_waste_emitted_to_the_ocean_mt integer
 );
 
 -- Tabel til at temp overføre global plastics production
 create table global_plastic_production_temp (
-Entity text,
-Code text,
-Year integer,
-Annual_plastic_production integer
+    Entity text,
+    Code text,
+    Year integer,
+    Annual_plastic_production integer
 );
 
 -- Tabel til at temp overføre recycling rate
 create table recycling_info_temp (
-Country text,
-Total_Plastic_Waste_MT numeric,
-Main_Sources text,
-Recycling_Rate numeric,
-Per_Capita_Waste_KG numeric,
-Coastal_Waste_Risk text
+    Country text,
+    Total_Plastic_Waste_MT numeric,
+    Main_Sources text,
+    Recycling_Rate numeric,
+    Per_Capita_Waste_KG numeric,
+    Coastal_Waste_Risk text
 );
 `);
 console.log('Tables recreated.');
@@ -127,6 +135,10 @@ await copyIntoTable(db, `
 	copy global_plastic_production_temp (Entity, Code, Year, Annual_plastic_production)
 	from stdin
 	with (FORMAT csv, HEADER, DELIMITER ';')`, 'db/global-plastics-production.csv');
+await copyIntoTable(db, `
+	copy plastic_end_up (Category, Subcategory, Percentage)
+	from stdin
+	with (FORMAT csv, HEADER`, 'db/ocean_plastic_data.csv');
 console.log('Data copied.');
 
 // Insert data from temp to primary tables

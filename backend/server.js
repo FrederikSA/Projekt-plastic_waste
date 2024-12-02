@@ -27,6 +27,7 @@ server.use(onEachRequest);
 server.get("/api/percapita", onGetPerCapita);
 server.get("/api/totalwaste", onGetTotalWaste);
 server.get("/api/recycleinfo", onGetRecycleInfo);
+server.get("/api/plasticendup", onGetPlasticEndUp);
 server.get("/api/linechart", onGetLineChart);
 server.listen(port, onServerReady);
 
@@ -60,6 +61,13 @@ from country c
 inner join recycling_info ri on c.country_id = ri.country_id
 where c.country_code = $1`,[countryId]
   );
+  response.send(dbResult.rows);
+}
+
+async function onGetPlasticEndUp(request, response) {
+  const dbResult = await db.query(`
+select Category, Subcategory, Percentage
+from plastic_end_up`);
   response.send(dbResult.rows);
 }
 

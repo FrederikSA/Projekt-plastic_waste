@@ -61,29 +61,148 @@ body {
   }
   
  /* Where do plastic end-sektion styling */
-  #plastic-end {
-    display: flex;
-    align-items: center;
-    background: linear-gradient(to bottom, #154061, #20567f);
-    padding: 50px;
-    color: #ffffff;
-    text-align: center;
+#plastic-end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #154061, #20567f);
+  padding: 50px; /* Du kan reducere denne padding for at give mere plads */
+  color: #ffffff;
+  text-align: center;
   }
   
+  /* Juster margin under h2 for at reducere afstanden */
+  #plastic-end h2 {
+  font-size: 2em;
+  margin-bottom: 5px; /* Reducer marginen for at få det tættere på diagrammet */
+  color: #ffffff;
+  }
+  
+  .chart-wrapper {
+    display: flex;
+    flex-direction: row; /* Ensures horizontal alignment */
+    justify-content: space-between; /* Creates space between items */
+    align-items: flex-start; /* Aligns items to the top */
+    width: 100%; /* Ensure the wrapper spans the full width */
+    max-width: 1200px; /* Optional: Limit the width for better layout control */
+    margin: 0 auto; /* Center the wrapper horizontally if smaller than the viewport */
+    gap: 20px; /* Adds spacing between the graph and the fact box */
+}
+
+  
+  #chart-container {
+    flex: 6; /* Occupies 60% of the available space */
+    max-width: 60%; /* Ensures the graph doesn't exceed 60% of the width */
+    min-width: 0; /* Prevents the graph from growing too large */
+  }
+  
+  
+  /* Section for Plastic End */
   .plastic_e {
-    flex: 1;
-    padding: 20px;
+  flex: 1; /* Gør elementet fleksibelt så det optager al tilgængelig plads */
+  padding: 20px; /* Tilføjer padding inde i plastik end sektionen */
   }
   
   .plastic_e h2 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
+  font-size: 1.8em; /* Sætter størrelsen på overskriften i plastik-sektionen */
+  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
   }
   
   .plastic_e p {
-    font-size: 1.1em;
-    line-height: 1.5;
+  font-size: 1.1em; /* Gør tekstens størrelse lidt større */
+  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
   }
+  
+  /* Production-sektion styling */
+  #plastic-production {
+  display: flex; /* Brug flexbox for layout */
+  align-items: center; /* Centrerer elementerne vertikalt */
+  background: linear-gradient(to bottom, #20567f, #337bb2); /* Gradient baggrund fra blå til en lysere blå */
+  padding: 50px; /* Tilføjer padding til sektionen */
+  color: #ffffff; /* Gør teksten hvid */
+  text-align: center; /* Centrerer teksten i sektionen */
+  }
+  
+  .plastic-p {
+  flex: 1; /* Gør plastik sektionen fleksibel */
+  padding: 20px; /* Tilføjer padding inde i plastik sektionen */
+  }
+  
+  .plastic-p h2 {
+  font-size: 1.8em; /* Gør overskriften lidt større */
+  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
+  }
+  
+  .plastic-p p {
+  font-size: 1.1em; /* Øger tekstens størrelse lidt */
+  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
+  }
+  
+  /* Comparison-sektion styling */
+  #comparison {
+  display: flex; /* Brug flexbox for layout */
+  align-items: center; /* Centrerer elementerne vertikalt */
+  background: linear-gradient(to bottom, #337bb2, #3b83b9); /* Gradient baggrund fra lys blå til blå */
+  padding: 50px; /* Tilføjer padding til sektionen */
+  color: #ffffff; /* Gør teksten hvid */
+  text-align: center; /* Centrerer tekst */
+  }
+  
+  .plastic_c {
+  flex: 1; /* Gør plastik sektionen fleksibel */
+  padding: 20px; /* Tilføjer padding inde i plastik sektionen */
+  }
+  
+  .plastic_c h {
+  font-size: 1.8em; /* Gør overskriften lidt større */
+  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
+  }
+  
+  .plastic_c p {
+  font-size: 1.1em; /* Øger tekstens størrelse lidt */
+  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
+  }
+  
+  /* Styling for the chart section */
+  #combined-chart-a {
+  width: 100%; /* Gør diagrammet 100% bredt */
+  height: 100%; /* Gør diagrammet 100% højt */
+  margin-top: 40px; /* Tilføjer afstand over diagrammet */
+  padding: 20px; /* Tilføjer padding inde i diagrammet */
+  }
+  
+/* Tooltip styling */
+#barTooltip {
+  position: absolute; /* Absolute positioning for flexibility */
+  text-align: left; /* Left-align text */
+  padding: 10px; /* Add padding around the content */
+  background-color: white; /* White background for readability */
+  color: #333333; /* Dark gray text */
+  border-radius: 5px; /* Rounded corners */
+  border: 1px solid #ccc; /* Light gray border */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  pointer-events: none; /* Tooltip won't block user interactions */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.2s ease; /* Smooth fade-in and fade-out effect */
+}
+
+.fact-box.plastic-end {
+  flex: 4; /* Occupies 40% of the available space */
+  max-width: 40%; /* Ensures the fact box doesn't exceed 40% of the width */
+  min-width: 0; /* Prevents the fact box from growing too large */
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+  color: #ffffff; /* White text for readability */
+  padding: 20px; /* Adds padding inside the box */
+  border: 1px solid #b2e1f5; /* Subtle blue border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  display: flex; /* Flexbox for content layout */
+  flex-direction: column; /* Stack content vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
   
 /* -sektion styling */
 #plastic-production {
@@ -364,4 +483,11 @@ svg {
   justify-content: center; /* Centrerer indholdet lodret */
   align-items: center; /* Centrerer indholdet vandret */
 }
+
+
+
+
+
+
+
 

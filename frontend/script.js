@@ -24,7 +24,7 @@ fetch('/api/linechart')
       .range([height - margin.bottom, margin.top]);
 
     // SVG container. Tager i mod dataen fra d3. 
-    const svg = d3.select("svg")
+    const svg = d3.select("#combined-chart-b")
       .attr("width", width)
       .attr("height", height);
 
@@ -224,3 +224,146 @@ d3.select("#visualization")
             .duration(200) // Varigheden af skjulningstransitionen
             .style("opacity", 0); // Gør tooltip usynlig
     });
+
+
+    // Niclas Visualisering
+    // Dimensioner for SVG-elementet
+// Definer marginer for grafen
+const margin = { top: 10, right: 150, bottom: 10, left: 100 };
+const barWidth = 900 - margin.left - margin.right; // Bredde for grafen, fratrukket marginer
+const barHeight = 400 - margin.top - margin.bottom; // Højde for grafen, fratrukket marginer
+
+// Opretter SVG-containeren til diagrammet
+const svg = d3.select("#combined-chart-a")
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("transform", `translate(${margin.left},${margin.top})`);
+
+// Skalaer for X- og Y-akser
+const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
+const yScale = d3.scaleBand()
+  .domain(["Sources of plastic into the ocean", "Where plastic goes in the ocean"])
+  .range([0, height])
+  .padding(0.3);
+
+const colorScale = d3.scaleOrdinal()
+  .domain(["Rivers", "Coasts", "Floating close to the shoreline", "Sinks to seabed", "Transported offshore on the surface"])
+  .range(["#26709d", "#4f93b8", "#26709d", "#4f93b8", "#8c8c8c"]);
+
+// Indlæs CSV-fil og generer grafen
+d3.csv("ocean_plastic_data.csv").then(function(data) {
+  console.log(data);
+
+  let xPosition = 0;
+
+  // Del data i to kategorier
+  const sources = data.filter(d => d.Category === "Sources of plastic into the ocean");
+  const destinations = data.filter(d => d.Category === "Where plastic goes in the ocean");
+
+  // Tilføj kategori-labels
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", yScale("Sources of plastic into the ocean") - 10)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "16px")
+    .attr("font-weight", "bold")
+    .attr("fill", "#ffffff")
+    .text("Sources of plastic into the ocean");
+
+  svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", yScale("Where plastic goes in the ocean") - 10)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "16px")
+    .attr("font-weight", "bold")
+    .attr("fill", "#ffffff")
+    .text("Where plastic goes in the ocean");
+
+  // Tegn søjler for hver sektion
+  sources.forEach(d => {
+    svg.append("rect")
+      .attr("x", xPosition)
+      .attr("y", yScale("Sources of plastic into the ocean"))
+      .attr("width", xScale(d.Percentage))
+      .attr("height", yScale.bandwidth())
+      .attr("fill", colorScale(d.Subcategory))
+      .attr("stroke", "#b2e1f5")
+      .attr("stroke-width", 1)
+      .on("mouseover", function(event) {
+        d3.select("#barTooltip")
+          .style("opacity", 1)
+          .html(`Subcategory: ${d.Subcategory}<br>Percentage: ${d.Percentage}%`);
+      })
+      .on("mouseout", function() {
+        d3.select("#barTooltip").style("opacity", 0);
+      });
+
+    const fontSize = d.Percentage < 5 ? "10px" : "14px";
+
+    svg.append("text")
+      .attr("x", xPosition + xScale(d.Percentage) / 2)
+      .attr("y", yScale("Sources of plastic into the ocean") + yScale.bandwidth() / 2)
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      .attr("fill", "#ffffff")
+      .attr("font-size", fontSize)
+      .attr("font-weight", "bold")
+      .text(`${d.Percentage}%`);
+
+    xPosition += xScale(d.Percentage);
+  });
+
+  xPosition = 0;
+
+  destinations.forEach(d => {
+    svg.append("rect")
+      .attr("x", xPosition)
+      .attr("y", yScale("Where plastic goes in the ocean"))
+      .attr("width", xScale(d.Percentage))
+      .attr("height", yScale.bandwidth())
+      .attr("fill", colorScale(d.Subcategory))
+      .attr("stroke", "#b2e1f5")
+      .attr("stroke-width", 1)
+      .on("mouseover", function(event) {
+        d3.select("#barTooltip")
+          .style("opacity", 1)
+          .html(`Subcategory: ${d.Subcategory}<br>Percentage: ${d.Percentage}%`);
+      })
+      .on("mouseout", function() {
+        d3.select("#barTooltip").style("opacity", 0);
+      });
+
+    const fontSizeDest = d.Percentage < 5 ? "10px" : "14px";
+
+    svg.append("text")
+      .attr("x", xPosition + xScale(d.Percentage) / 2)
+      .attr("y", yScale("Where plastic goes in the ocean") + yScale.bandwidth() / 2)
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      .attr("fill", "#ffffff")
+      .attr("font-size", fontSizeDest)
+      .attr("font-weight", "bold")
+      .text(`${d.Percentage}%`);
+
+    xPosition += xScale(d.Percentage);
+  });
+
+  // Tilføj X-akse
+  svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(xScale).ticks(5));
+
+  // Tilføj tooltip-element
+  d3.select("body").append("div")
+    .attr("id", "barTooltip")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+  // Opdater tooltip'ets position baseret på musens bevægelse
+  svg.on("mousemove", function(event) {
+    d3.select("#barTooltip")
+      .style("left", `${event.pageX + 5}px`)
+      .style("top", `${event.pageY - 28}px`);
+  });
+});

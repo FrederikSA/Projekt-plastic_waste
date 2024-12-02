@@ -121,11 +121,11 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                     // Hent data for landet
                     d3.json("/api/totalwaste?countryId=" + d.id)
                         .then(function(countrydata) {
-                            d3.select(".tooltip").remove();
+                            d3.select(".tooltipmap").remove();
 
                             // Tilføjer en simpel pop-up (tooltip) med data fra API'en
                             d3.select("body").append("div")
-                                .attr("class", "tooltip")
+                                .attr("class", "tooltipmap")
                                 .style("position", "absolute")
                                 .style("background", "#ffffff")
                                 .style("color", "#000000")
@@ -146,7 +146,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                     d3.selectAll("path").classed("highlight", false).classed("dim", false);
 
                     // Fjern tooltip
-                    d3.select(".tooltip").remove();
+                    d3.select(".tooltipmap").remove();
                 });
     })
     .catch(function(error) {

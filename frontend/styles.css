@@ -35,6 +35,11 @@ nav ul li a {
   text-decoration: none;
 }
 
+
+
+
+
+
 /* Front earth barchart-sektion */
 #world-map {
   display: flex;
@@ -67,14 +72,11 @@ nav ul li a {
 
 
 
-
-
-
-
-/* End up visualisering starter */
+/* End up visualisering */
 
  /* Where do plastic end-sektion styling */
 #plastic-end {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -83,22 +85,6 @@ nav ul li a {
   color: #ffffff;
   text-align: center;
 }
-
-/* Section for Plastic End */
-.plastic_e {  
-  flex: 1; /* Gør elementet fleksibelt så det optager al tilgængelig plads */
-  padding: 20px; /* Tilføjer padding inde i plastik end sektionen */
-}  
-  
-.plastic_e h2 {
-  font-size: 1.8em; /* Sætter størrelsen på overskriften i plastik-sektionen */
-  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
-}
-  
-.plastic_e p {
-  font-size: 1.1em; /* Gør tekstens størrelse lidt større */
-  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
-}   
   
 /* Juster margin under h2 for at reducere afstanden */
 #plastic-end h2 {
@@ -108,6 +94,7 @@ nav ul li a {
 }
   
 .chart-wrapper {
+  display: flex;
   flex-direction: row; /* Ensures horizontal alignment */
   justify-content: space-between; /* Creates space between items */
   align-items: flex-start; /* Aligns items to the top */
@@ -118,14 +105,15 @@ nav ul li a {
 }
 
 #chart-container {
+  flex: 6; /* Occupies 60% of the available space */
   max-width: 60%; /* Ensures the graph doesn't exceed 60% of the width */
   min-width: 0; /* Prevents the graph from growing too large */
-}   
+}
 
 /* Styling for the chart section */
 #combined-chart-a {
-  width: 800px; /* Gør diagrammet 100% bredt */
-  height: 500px; /* Gør diagrammet 100% højt */
+  width: 100%; /* Gør diagrammet 100% bredt */
+  height: 100%; /* Gør diagrammet 100% højt */
   margin-top: 40px; /* Tilføjer afstand over diagrammet */
   padding: 20px; /* Tilføjer padding inde i diagrammet */
 }
@@ -146,8 +134,9 @@ nav ul li a {
 }
 
 .fact-box.plastic-end {
+  flex: 4; /* Occupies 40% of the available space */
   width: 420px; /* Øger bredden på fakta-boksen */
-  height: 470px; /* Matcher højden af grafen/sektionen */
+  height: 400px; /* Matcher højden af grafen/sektionen */
   background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
   color: #ffffff;
   padding: 20px;
@@ -167,16 +156,12 @@ nav ul li a {
 
 
 
-
-
-
-
-
-/* Production visulaisering starter */ 
+/* Production Visualisering */ 
 
 /* Production-sektion styling */
 #plastic-production {
   display: flex; /* Brug flexbox for layout */
+  position: relative; /* Sikrer, at fakta-boksen placeres i forhold til sektionen */
   align-items: center; /* Centrerer elementerne vertikalt */
   background: linear-gradient(to bottom, #20567f, #337bb2); /* Gradient baggrund fra blå til en lysere blå */
   padding: 50px; /* Tilføjer padding til sektionen */
@@ -185,6 +170,7 @@ nav ul li a {
 }
   
 .plastic-p {
+  flex: 1; /* Gør plastik sektionen fleksibel */
   padding: 20px; /* Tilføjer padding inde i plastik sektionen */
 }
   
@@ -210,10 +196,6 @@ svg {
   margin-left: 0; /* Sørger for, at grafen holder sin plads */
   margin-right: 380px; /* Giver plads til fakta-boksen på højre side */
   }
-
-#plastic-production {
-  position: relative; /* Sikrer, at fakta-boksen placeres i forhold til sektionen */
-}
 
 .fact-box.production {
   position: absolute; /* Gør det muligt at placere den præcist */
@@ -270,12 +252,7 @@ svg {
 
 
 
-
-
-
-
-
-/* Comparison Visualisering starter */
+/* Comparison Visualisering */ 
 
 /* Comparison-sektion styling */
 #comparison {
@@ -332,8 +309,8 @@ svg {
 
 /* Anden bølge med en anden SVG-baggrund */
 .wave2 {
-background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100"><path d="M0,40 C300,120 600,20 1200,40 L1200,0 L0,0 Z" fill="%2387ceeb" fill-opacity="0.4"/></svg>'); /* SVG-bølge med lyseblå farve og gennemsigtighed */
-animation-delay: 0s; /* Ingen forsinkelse på animationen */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100"><path d="M0,40 C300,120 600,20 1200,40 L1200,0 L0,0 Z" fill="%2387ceeb" fill-opacity="0.4"/></svg>'); /* SVG-bølge med lyseblå farve og gennemsigtighed */
+  animation-delay: 0s; /* Ingen forsinkelse på animationen */
 }
 
 /* Bølge-animationens keyframes */
@@ -456,11 +433,3 @@ animation-delay: 0s; /* Ingen forsinkelse på animationen */
   justify-content: center; /* Centrerer indholdet lodret */
   align-items: center; /* Centrerer indholdet vandret */
 }
-
-
-
-
-
-
-
-

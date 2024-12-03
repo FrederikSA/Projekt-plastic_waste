@@ -5,36 +5,36 @@ d3.select("#infoBoksMap").remove();
 d3.select("#my_dataviz").selectAll("*").remove();
 
 // Farveskala
-var recycleMapColorScale = d3.scaleLog()
-    .domain([0.01, 5, 25, 45, 65, 85]) // Recycling Rate intervaller
-    .range(["#eef9e0", "#C7E9C0", "#7FCDBB", "#41a891", "#317e6c", "#215448"]); // Farver til intervaller
+var mapColorScale = d3.scaleLog()
+    .domain([0.000001, 0.0025, 0.0236, 0.1736, 1, 3.3, 10]) // Intervaller
+    .range(["#FFFFEA", "#F2D6A2", "#F2A25C", "#D96E48", "#8C5642", "#5A2C2C", "#3E1A1A"]); // Farver til intervaller
 
-// The svg
-var recycleMapSvg = d3.select("#my_dataviz"),
-    recycleMapWidth = +recycleMapSvg.attr("width"),
-    recycleMapHeight = +recycleMapSvg.attr("height");
+// The SVG
+var mapSvg = d3.select("#my_dataviz"),
+    mapWidth = +mapSvg.attr("width"),
+    mapHeight = +mapSvg.attr("height");
 
 // Opret SVG til infoboks til world map
-var recycleMapInfoBoksSvg = d3.select("#world-map")
+var mapInfoBoksSvg = d3.select("#world-map")
     .append("svg")
     .attr("id", "infoBoksMap")
     .attr("width", 200)
     .attr("height", 300);
 
 // Infoboks data
-var recycleMapInfoBoksData = [
+var mapInfoBoksData = [
     { color: "grey", text: "No data" },
-    { color: "#eef9e0", text: "0% - 5%" },
-    { color: "#C7E9C0", text: "5% - 25%" },
-    { color: "#7FCDBB", text: "25% - 45%" },
-    { color: "#41a891", text: "45% - 65%" },
-    { color: "#317e6c", text: "65% - 85%" },
-    { color: "#215448", text: "85% - 100%" }
+    { color: "#FFFFEA", text: "0 - 0.0025 kg" },
+    { color: "#F2D6A2", text: "0.0025 - 0.0236 kg" },
+    { color: "#F2A25C", text: "0.0236 - 0.1736 kg" },
+    { color: "#D96E48", text: "0.1736 - 1 kg" },
+    { color: "#8C5642", text: "1 - 3.3 kg" },
+    { color: "#3E1A1A", text: "3.3 - 10 kg" }
 ];
 
 // Tilføj farvebokse
-recycleMapInfoBoksData.forEach(function(d, i) {
-    recycleMapInfoBoksSvg.append("rect")
+mapInfoBoksData.forEach(function(d, i) {
+    mapInfoBoksSvg.append("rect")
         .attr("x", 0)
         .attr("y", 20 + i * 30)
         .attr("width", 20)
@@ -43,7 +43,7 @@ recycleMapInfoBoksData.forEach(function(d, i) {
         .attr("stroke", "black");
 
     // Teksten, som står til højre for farven
-    recycleMapInfoBoksSvg.append("text")
+    mapInfoBoksSvg.append("text")
         .attr("x", 30)
         .attr("y", 35 + i * 30)
         .text(d.text)
@@ -54,28 +54,28 @@ recycleMapInfoBoksData.forEach(function(d, i) {
 });
 
 // Map and projection
-var recycleMapProjection = d3.geoNaturalEarth1()
-    .scale(recycleMapWidth / 1.8 / Math.PI)
-    .translate([recycleMapWidth / 2, recycleMapHeight / 1.8]);
+var mapProjection = d3.geoNaturalEarth1()
+    .scale(mapWidth / 1.8 / Math.PI)
+    .translate([mapWidth / 2, mapHeight / 1.8]);
 
-// Funktion til at give data hvis vi har data, og ellers give "No data"
-function recycleMapWaste(countrydata) {
+// Funktion til at give mig data, hvis vi har data og ellers give mig "Data mangler"
+function mapWaste(countrydata) {
     if (countrydata.length === 0)
         return "No data";
     else
-        return countrydata[0].recycling_rate + "%";
+        return countrydata[0].waste_kg_per_capita + " kg";
 }
 
-// Funktion til at hente farve baseret på landets genbrugsdata
-function recycleMapGetCountryColor(countryId) {
+// Funktion til at hente farve baseret på landets plastikdata
+function mapGetCountryColor(countryId) {
     return new Promise((resolve) => {
-        d3.json("/api/recycleinfo?countryId=" + countryId)
+        d3.json("/api/percapita?countryId=" + countryId)
             .then(function(countrydata) {
                 if (countrydata.length === 0) {
                     resolve("grey"); // Standardfarve for lande uden data
                 } else {
-                    var recyclingRate = +countrydata[0].recycling_rate;
-                    resolve(recycleMapColorScale(recyclingRate)); // Returner farven for lande med data
+                    var plasticAmount = +countrydata[0].waste_kg_per_capita;
+                    resolve(mapColorScale(plasticAmount)); // Returner farven for lande med data
                 }
             })
             .catch(function(error) {
@@ -89,20 +89,20 @@ function recycleMapGetCountryColor(countryId) {
 d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
     .then(function(data) {
         // Draw the map
-        recycleMapSvg.append("g")
+        mapSvg.append("g")
             .selectAll("path")
             .data(data.features)
             .enter().append("path")
-                .attr("d", d3.geoPath().projection(recycleMapProjection))
+                .attr("d", d3.geoPath().projection(mapProjection))
                 .style("stroke", "#fff")
                 .each(function(d) {
                     // Hent farve til hvert land og opdater
-                    recycleMapGetCountryColor(d.id).then(color => {
+                    mapGetCountryColor(d.id).then(color => {
                         d3.select(this).attr("fill", color || "#ccc"); // Default farve, hvis der mangler data
                     });
                 })
                 .on("click", function(event, d) {
-                    d3.json("/api/recycleinfo?countryId=" + d.id)
+                    d3.json("/api/percapita?countryId=" + d.id)
                         .then(function(countrydata) {
                             console.log(countrydata);
                         });
@@ -116,10 +116,10 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                     d3.select(this).classed("dim", false);
 
                     // Hent data for landet
-                    d3.json("/api/recycleinfo?countryId=" + d.id)
+                    d3.json("/api/percapita?countryId=" + d.id)
                         .then(function(countrydata) {
                             d3.select(".tooltipmap").remove();
-
+                            
                             // Tilføjer en simpel pop-up (tooltip) med data fra API'en
                             d3.select("body").append("div")
                                 .attr("class", "tooltipmap")
@@ -134,7 +134,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
                                 .style("left", (event.pageX + 20) + "px")
                                 .html(`
                                     <strong>Country:</strong> ${d.properties.name || "Ukendt land"}<br>
-                                    <strong>Recycling rate:</strong> ${recycleMapWaste(countrydata)}
+                                    <strong>Waste per capita:</strong> ${mapWaste(countrydata)}
                                 `);
                         });
                 })

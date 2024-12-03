@@ -96,8 +96,8 @@ nav ul li a {
 /* Infoboks til world map */
 #infoBoks {
   position: absolute; /* Gør det muligt at placere infoboksen frit */
-  top: 40px; /* Placer infoboksen 0px fra toppen af sektionen */
-  left: 50px; /* Placer infoboksen 90px fra venstre side */
+  top: 5%; /* Placer infoboksen 0px fra toppen af sektionen */
+  left: 3.5%; /* Placer infoboksen 90px fra venstre side */
 }
 /* Farvebokse i inforboksen */
 #infoBoks rect {

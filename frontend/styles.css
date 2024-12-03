@@ -60,9 +60,21 @@ nav ul li a {
   line-height: 1.5;
 }
   
+
+
+
+
+
+
+
+
+
+
+
+/* End up visualisering starter */
+
  /* Where do plastic end-sektion styling */
 #plastic-end {
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -71,31 +83,7 @@ nav ul li a {
   color: #ffffff;
   text-align: center;
 }
-  
-/* Juster margin under h2 for at reducere afstanden */
-#plastic-end h2 {
-  font-size: 2em;
-  margin-bottom: 5px; /* Reducer marginen for at få det tættere på diagrammet */
-  color: #ffffff;
-}
-  
-.chart-wrapper {
-  display: flex;
-  flex-direction: row; /* Ensures horizontal alignment */
-  justify-content: space-between; /* Creates space between items */
-  align-items: flex-start; /* Aligns items to the top */
-  width: 100%; /* Ensure the wrapper spans the full width */
-  max-width: 1200px; /* Optional: Limit the width for better layout control */
-  margin: 0 auto; /* Center the wrapper horizontally if smaller than the viewport */
-  gap: 20px; /* Adds spacing between the graph and the fact box */
-}
 
-#chart-container {
-  flex: 6; /* Occupies 60% of the available space */
-  max-width: 60%; /* Ensures the graph doesn't exceed 60% of the width */
-  min-width: 0; /* Prevents the graph from growing too large */
-}
-  
 /* Section for Plastic End */
 .plastic_e {  
   flex: 1; /* Gør elementet fleksibelt så det optager al tilgængelig plads */
@@ -110,42 +98,34 @@ nav ul li a {
 .plastic_e p {
   font-size: 1.1em; /* Gør tekstens størrelse lidt større */
   line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
-}      
+}   
   
-/* Production-sektion styling */
-#plastic-production {
-  display: flex; /* Brug flexbox for layout */
-  align-items: center; /* Centrerer elementerne vertikalt */
-  background: linear-gradient(to bottom, #20567f, #337bb2); /* Gradient baggrund fra blå til en lysere blå */
-  padding: 50px; /* Tilføjer padding til sektionen */
-  color: #ffffff; /* Gør teksten hvid */
-  text-align: center; /* Centrerer teksten i sektionen */
+/* Juster margin under h2 for at reducere afstanden */
+#plastic-end h2 {
+  font-size: 2em;
+  margin-bottom: 5px; /* Reducer marginen for at få det tættere på diagrammet */
+  color: #ffffff;
 }
   
-.plastic-p {
-  flex: 1; /* Gør plastik sektionen fleksibel */
-  padding: 20px; /* Tilføjer padding inde i plastik sektionen */
+.chart-wrapper {
+  flex-direction: row; /* Ensures horizontal alignment */
+  justify-content: space-between; /* Creates space between items */
+  align-items: flex-start; /* Aligns items to the top */
+  width: 100%; /* Ensure the wrapper spans the full width */
+  max-width: 1200px; /* Optional: Limit the width for better layout control */
+  margin: 0 auto; /* Center the wrapper horizontally if smaller than the viewport */
+  gap: 20px; /* Adds spacing between the graph and the fact box */
 }
-  
-.plastic-p h2 {
-  font-size: 1.8em; /* Gør overskriften lidt større */
-  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
-}
-  
-.plastic-p p {
-  font-size: 1.1em; /* Øger tekstens størrelse lidt */
-  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
-}
-  
 
-
-
-
+#chart-container {
+  max-width: 60%; /* Ensures the graph doesn't exceed 60% of the width */
+  min-width: 0; /* Prevents the graph from growing too large */
+}   
 
 /* Styling for the chart section */
 #combined-chart-a {
-  width: 100%; /* Gør diagrammet 100% bredt */
-  height: 100%; /* Gør diagrammet 100% højt */
+  width: 800px; /* Gør diagrammet 100% bredt */
+  height: 500px; /* Gør diagrammet 100% højt */
   margin-top: 40px; /* Tilføjer afstand over diagrammet */
   padding: 20px; /* Tilføjer padding inde i diagrammet */
 }
@@ -166,34 +146,56 @@ nav ul li a {
 }
 
 .fact-box.plastic-end {
-  flex: 4; /* Occupies 40% of the available space */
-  max-width: 40%; /* Ensures the fact box doesn't exceed 40% of the width */
-  min-width: 0; /* Prevents the fact box from growing too large */
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-  color: #ffffff; /* White text for readability */
-  padding: 20px; /* Adds padding inside the box */
-  border: 1px solid #b2e1f5; /* Subtle blue border */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
-  display: flex; /* Flexbox for content layout */
-  flex-direction: column; /* Stack content vertically */
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-}
-
-.plastic-p {
-  flex: 1;
+  width: 420px; /* Øger bredden på fakta-boksen */
+  height: 470px; /* Matcher højden af grafen/sektionen */
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
+  color: #ffffff;
   padding: 20px;
+  border: 1px solid #b2e1f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Let skygge */
+  display: flex; /* For bedre layout af indhold */
+  flex-direction: column; /* Stabler indholdet lodret */
+  justify-content: center; /* Centrerer indholdet lodret */
+  align-items: center; /* Centrerer indholdet vandret */
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* Production visulaisering starter */ 
+
+/* Production-sektion styling */
+#plastic-production {
+  display: flex; /* Brug flexbox for layout */
+  align-items: center; /* Centrerer elementerne vertikalt */
+  background: linear-gradient(to bottom, #20567f, #337bb2); /* Gradient baggrund fra blå til en lysere blå */
+  padding: 50px; /* Tilføjer padding til sektionen */
+  color: #ffffff; /* Gør teksten hvid */
+  text-align: center; /* Centrerer teksten i sektionen */
+}
+  
+.plastic-p {
+  padding: 20px; /* Tilføjer padding inde i plastik sektionen */
+}
+  
 .plastic-p h2 {
-  font-size: 1.8em;
-  margin-bottom: 10px;
+  font-size: 1.8em; /* Gør overskriften lidt større */
+  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
 }
-
+  
 .plastic-p p {
-  font-size: 1.1em;
-  line-height: 1.5;
+  font-size: 1.1em; /* Øger tekstens størrelse lidt */
+  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
 }
 
 /* svg line circle hver rect tooltip, er alle noget der er med til at design line ch*/
@@ -263,6 +265,18 @@ svg {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+/* Comparison Visualisering starter */
+
 /* Comparison-sektion styling */
 #comparison {
   background: linear-gradient(to bottom, #337bb2, #3b83b9);
@@ -280,8 +294,6 @@ svg {
   font-size: 1.1em;
   line-height: 1.5;
 }
-
-/* Comparison Visualisering */
 
 /* Containeren for visualiseringen */
 #visualization {
@@ -432,7 +444,7 @@ animation-delay: 0s; /* Ingen forsinkelse på animationen */
 
 .fact-box.comparison {
   width: 420px; /* Øger bredden på fakta-boksen */
-  height: 500px; /* Matcher højden af grafen/sektionen */
+  height: 470px; /* Matcher højden af grafen/sektionen */
   background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
   color: #ffffff;
   padding: 20px;

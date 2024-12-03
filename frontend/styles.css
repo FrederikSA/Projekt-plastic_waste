@@ -137,31 +137,11 @@ nav ul li a {
   line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
 }
   
-/* Comparison-sektion styling */
-#comparison {
-  display: flex; /* Brug flexbox for layout */
-  align-items: center; /* Centrerer elementerne vertikalt */
-  background: linear-gradient(to bottom, #337bb2, #3b83b9); /* Gradient baggrund fra lys blå til blå */
-  padding: 50px; /* Tilføjer padding til sektionen */
-  color: #ffffff; /* Gør teksten hvid */
-  text-align: center; /* Centrerer tekst */
-}
-  
-.plastic_c {
-  flex: 1; /* Gør plastik sektionen fleksibel */
-  padding: 20px; /* Tilføjer padding inde i plastik sektionen */
-}
-  
-.plastic_c h {
-  font-size: 1.8em; /* Gør overskriften lidt større */
-  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
-}
-  
-.plastic_c p {
-  font-size: 1.1em; /* Øger tekstens størrelse lidt */
-  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
-}
-  
+
+
+
+
+
 /* Styling for the chart section */
 #combined-chart-a {
   width: 100%; /* Gør diagrammet 100% bredt */

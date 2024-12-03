@@ -526,3 +526,10 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
       .style("top", `${event.pageY - 28}px`);
   });
 });
+
+document.querySelectorAll("*").forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.right > window.innerWidth) {
+        console.log("Element går ud over viewporten:", el, rect);
+    }
+});

@@ -94,20 +94,20 @@ nav ul li a {
 }
 
 /* Infoboks til world map */
-#infoBoks {
+#infoBoksMap {
   position: absolute; /* Gør det muligt at placere infoboksen frit */
   top: 5%; /* Placer infoboksen 0px fra toppen af sektionen */
   left: 3.5%; /* Placer infoboksen 90px fra venstre side */
 }
 /* Farvebokse i inforboksen */
-#infoBoks rect {
+#infoBoksMap rect {
   width: 20px;
   height: 20px;
   stroke: black; /* Sort kant omkring bokse */
   stroke-width: 1px;
 }
 /* Tekst i infoboksen */
-#infoBoks text {
+#infoBoksMap text {
   font-size: 14px;
   font-family: Arial, sans-serif;
   fill: #ffffff; /* Hvid tekstfarve */

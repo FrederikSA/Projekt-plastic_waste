@@ -231,7 +231,7 @@ d3.select("#visualization")
 // Definer marginer for grafen
 const barWidth = 800; // Bredde for grafen, fratrukket marginer
 const barHeight = 500; // Højde for grafen, fratrukket marginer
-const margin = { top: 20, right: 30, bottom: 50, left: 70 };
+const margin = { top: 20, right: 30, bottom: 50, left: 0.1 };
 
 // Opretter SVG-containeren til diagrammet
 const svg = d3.select("#combined-chart-a")
@@ -293,7 +293,7 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
       .on("mouseover", function(event) {
         d3.select("#barTooltip")
           .style("opacity", 1)
-          .html(`Subcategory: ${d.Subcategory}<br>Percentage: ${d.Percentage}%`);
+          .html(`<strong>Subcategory:</strong> ${d.Subcategory}<br><strong>Percentage:</strong> ${d.Percentage}%`);
       })
       .on("mouseout", function() {
         d3.select("#barTooltip").style("opacity", 0);
@@ -328,7 +328,7 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
       .on("mouseover", function(event) {
         d3.select("#barTooltip")
           .style("opacity", 1)
-          .html(`Subcategory: ${d.Subcategory}<br>Percentage: ${d.Percentage}%`);
+          .html(`<strong>Subcategory:</strong> ${d.Subcategory}<br><strong>Percentage:</strong> ${d.Percentage}%`);
       })
       .on("mouseout", function() {
         d3.select("#barTooltip").style("opacity", 0);

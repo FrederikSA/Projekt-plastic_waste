@@ -229,9 +229,9 @@ d3.select("#visualization")
     // Niclas Visualisering
     // Dimensioner for SVG-elementet
 // Definer marginer for grafen
-const margin = { top: 10, right: 150, bottom: 10, left: 100 };
-const barWidth = 900 - margin.left - margin.right; // Bredde for grafen, fratrukket marginer
-const barHeight = 400 - margin.top - margin.bottom; // Højde for grafen, fratrukket marginer
+const barWidth = 800; // Bredde for grafen, fratrukket marginer
+const barHeight = 500; // Højde for grafen, fratrukket marginer
+const margin = { top: 20, right: 30, bottom: 50, left: 70 };
 
 // Opretter SVG-containeren til diagrammet
 const svg = d3.select("#combined-chart-a")

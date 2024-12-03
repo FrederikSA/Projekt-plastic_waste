@@ -64,7 +64,20 @@ nav ul li a {
   font-size: 1.1em;
   line-height: 1.5;
 }
-  
+
+#button-hover-head {
+  color: white; /* Hvid tekst */
+}
+#button-hover-head:hover {
+  background-color: #1c4f77; /* Lysere blå ved hover */
+  color: white; /* Hvid tekst */
+  border: none; /* Ingen kant */
+  padding: 10px 10px; /* Gør knapperne lidt større */
+  margin: 0 5px; /* Giver lidt afstand mellem knapperne */
+  border-radius: 5px; /* Runde hjørner */
+  font-size: 16px; /* Læsevenlig tekst */
+  cursor: pointer; /* Ændrer musen til en pointer ved hover */
+}
 
 
 

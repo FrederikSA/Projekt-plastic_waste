@@ -21,9 +21,17 @@
     
     <!-- Front_page earth chart section -->
     <section id="world-map">
-        <div class="map-header">
-            <h2>Plastic in the ocean (World chart)</h2>
-            <p>Oplev dybderne og skønheden ved havet.</p>
+        <div id="button-container">
+            <button id="PerCapita">Plastic waste Per Capita</button>
+            <button id="TotalWaste">Plastic waste emitted to the ocean</button>
+            <button id="Recycle">Recycled</button>
+        </div>
+            <div id="map-container">
+                <svg id="my_dataviz" width="1300" height="700"></svg>
+                                <!-- Load worldmap d3.js -->
+            <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+            <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+            </div>
         </div>
     </section>
     
@@ -96,5 +104,7 @@
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="script.js"></script>
+<!-- Så det er muligt at skifte mellem scripts for world-map -->
+    <script src="switchscript.js"></script>
 </body>
 </html>

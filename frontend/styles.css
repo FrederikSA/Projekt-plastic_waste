@@ -64,20 +64,7 @@ nav ul li a {
   font-size: 1.1em;
   line-height: 1.5;
 }
-
-#button-hover-head {
-  color: white; /* Hvid tekst */
-}
-#button-hover-head:hover {
-  background-color: #1c4f77; /* Lysere blå ved hover */
-  color: white; /* Hvid tekst */
-  border: none; /* Ingen kant */
-  padding: 10px 10px; /* Gør knapperne lidt større */
-  margin: 0 5px; /* Giver lidt afstand mellem knapperne */
-  border-radius: 5px; /* Runde hjørner */
-  font-size: 16px; /* Læsevenlig tekst */
-  cursor: pointer; /* Ændrer musen til en pointer ved hover */
-}
+  
 
 
 
@@ -101,9 +88,8 @@ nav ul li a {
   
 /* Juster margin under h2 for at reducere afstanden */
 #plastic-end h2 {
-  font-size: 2em;
-  margin-bottom: 5px; /* Reducer marginen for at få det tættere på diagrammet */
-  color: #ffffff;
+  font-size: 1.8em; /* Gør overskriften lidt større */
+  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
 }
   
 .chart-wrapper {
@@ -127,7 +113,7 @@ nav ul li a {
 #combined-chart-a {
   width: 100%; /* Gør diagrammet 100% bredt */
   height: 100%; /* Gør diagrammet 100% højt */
-  margin-top: 40px; /* Tilføjer afstand over diagrammet */
+  margin-top: -80px; /* Tilføjer afstand over diagrammet */
   padding: 20px; /* Tilføjer padding inde i diagrammet */
 }
   
@@ -144,6 +130,7 @@ nav ul li a {
   pointer-events: none; /* Tooltip won't block user interactions */
   opacity: 0; /* Initially hidden */
   transition: opacity 0.2s ease; /* Smooth fade-in and fade-out effect */
+  z-index: 10; /* Placerer det foran andre elementer */
 }
 
 .fact-box.plastic-end {
@@ -274,10 +261,14 @@ svg {
   color: #ffffff;
   text-align: center;
 }
+#comparison h2 {
+  font-size: 1.8em; /* Gør overskriften lidt større */
+  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
+}
   
 .plastic-c h2 {
-  font-size: 1.8em;
-  margin-bottom: 10px;
+  font-size: 1.8em; /* Gør overskriften lidt større */
+  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
 }
   
 .plastic-c p {

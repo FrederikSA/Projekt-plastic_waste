@@ -363,7 +363,7 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
   // Opdater tooltip'ets position baseret på musens bevægelse
   svg.on("mousemove", function(event) {
     d3.select("#barTooltip")
-      .style("left", `${event.pageX + 5}px`)
+      .style("left", `${event.pageX - 180}px`)
       .style("top", `${event.pageY - 28}px`);
   });
 });

@@ -204,7 +204,7 @@ path {
 #combined-chart-a {
   width: 100%; /* Gør diagrammet så bredt som containeren */
   height: 100%; /* Gør diagrammet så højt som containeren */
-  margin-top: -80px; /* Trækker diagrammet opad */
+  margin-top: -70px; /* Trækker diagrammet opad */
   padding: 20px; /* Tilføjer padding inde i diagrammet */
 }
 

@@ -528,3 +528,20 @@ svg {
   justify-content: center; /* Centrerer indholdet lodret */
   align-items: center; /* Centrerer indholdet vandret */
 }
+
+
+
+
+
+
+/* Truck Animation Styling */
+#truckAnimationCanvas {
+  width: 100%; /* Responsiv bredde */
+  height: 100%; /* Responsiv højde */
+  max-width: 800px; /* Maksimal bredde */
+  max-height: 400px; /* Maksimal højde */
+  display: block; /* Sørger for, at SVG vises som blok-element */
+  margin: 0 auto; /* Centrerer SVG horisontalt */
+  z-index: 90;
+}
+

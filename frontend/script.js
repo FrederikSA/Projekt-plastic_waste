@@ -522,3 +522,125 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
       .style("top", `${event.pageY - 28}px`);
   });
 });
+
+
+
+
+
+
+
+
+// Truck i bunden af hjemmesiden
+(function () {
+  // **Truck Animation Unique Variables**
+  // Definerer konstanter, der bruges til at styre animationens dimensioner og udseende.
+  const truckAnimationSvg = d3.select("#truckAnimationCanvas"); // Vælger SVG-elementet, hvor animationen tegnes.
+  const truckAnimationWidth = 800; // Bredden på lærredet for animationen.
+  const truckAnimationHeight = 100; // Højden på lærredet for animationen.
+  const truckInitialX = -420; // Lastbilens startposition uden for synsfeltet til venstre.
+  const truckY = 70; // Lastbilens lodrette position på lærredet.
+  const roadHeight = 50; // Højden på vejen.
+  const stripeWidth = 20; // Bredden af de hvide vejstriber.
+  const stripeHeight = 5; // Højden af de hvide vejstriber.
+  const stripeSpacing = 30; // Afstanden mellem striberne.
+
+  // **Sætter dimensioner for SVG-elementet**
+  truckAnimationSvg.attr("width", truckAnimationWidth).attr("height", truckAnimationHeight);
+
+  // **Tegner vejen som en grå rektangel**
+  truckAnimationSvg.append("rect")
+    .attr("x", 0) // Starter ved venstre kant af SVG-elementet.
+    .attr("y", truckAnimationHeight - roadHeight) // Positionerer vejen nederst i SVG-elementet.
+    .attr("width", truckAnimationWidth) // Bredden på vejen svarer til SVG-elementets bredde.
+    .attr("height", roadHeight) // Højden på vejen.
+    .attr("fill", "#4a4a4a"); // Grå farve til vejen.
+
+  // **Tilføjer hvide striber til vejen**
+  for (let i = 0; i < truckAnimationWidth; i += stripeWidth + stripeSpacing) {
+    truckAnimationSvg.append("rect")
+      .attr("x", i) // Starter hver stribe med en given afstand.
+      .attr("y", truckAnimationHeight - roadHeight / 2 - stripeHeight / 2) // Centrerer striberne på vejen.
+      .attr("width", stripeWidth) // Bredden på hver stribe.
+      .attr("height", stripeHeight) // Højden på hver stribe.
+      .attr("fill", "#ffffff"); // Stribernes farve er hvid.
+  }
+
+  // **Tegner lastbilen som en gruppe af grafiske elementer**
+  const truck = truckAnimationSvg.append("g")
+    .attr("class", "truck") // Tilføjer klassen "truck" for styling eller genkendelse.
+    .attr("transform", `translate(${truckInitialX}, ${truckY})`); // Positionerer lastbilen på lærredet.
+
+  // **Tilføjer rektangler og cirkler til at tegne lastbilens krop og hjul**
+  truck.append("rect").attr("x", 0).attr("y", -50).attr("width", 120).attr("height", 60).attr("fill", "#2e7d32"); // Lastbilens trailer.
+  truck.append("rect").attr("x", 120).attr("y", -30).attr("width", 60).attr("height", 40).attr("fill", "#4caf50"); // Lastbilens førerhus.
+  truck.append("rect").attr("x", 130).attr("y", -25).attr("width", 20).attr("height", 15).attr("fill", "#cfd8dc"); // Lastbilens vindue.
+  truck.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 10).attr("fill", "#212121"); // Første hjul.
+  truck.append("circle").attr("cx", 80).attr("cy", 20).attr("r", 10).attr("fill", "#212121"); // Andet hjul.
+  truck.append("circle").attr("cx", 140).attr("cy", 20).attr("r", 10).attr("fill", "#212121"); // Tredje hjul.
+
+  // **Funktion til at generere affald**
+  function generateTrash() {
+    const trash = truckAnimationSvg.append("g") // Opretter en gruppe til affald.
+      .attr("class", "trash") // Tilføjer klassen "trash".
+      .attr("transform", `translate(${truckInitialX + 600}, ${truckY - 10})`); // Positionerer affaldet bag lastbilen.
+
+    for (let i = 0; i < 10; i++) { // Genererer 10 tilfældige affaldselementer.
+      const x = Math.random() * 50 - 20; // Tilfældig vandret placering.
+      const y = Math.random() * 40 - 20; // Tilfældig lodret placering.
+      const size = Math.random() * 8 + 5; // Tilfældig størrelse på affaldselementet.
+
+      trash.append("rect")
+        .attr("x", x) // Vandret position.
+        .attr("y", y) // Lodret position.
+        .attr("width", size) // Bredden på affaldet.
+        .attr("height", size) // Højden på affaldet.
+        .attr("fill", `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`) // Tilfældig farve.
+        .attr("opacity", 0.8); // Gennemsigtighed.
+    }
+
+    const roadCenterY = truckAnimationHeight - roadHeight + roadHeight / 2; // Vejenes midterlinje.
+    trash.transition()
+      .duration(1000) // Animationens varighed.
+      .attr("transform", `translate(${truckInitialX + 600}, ${roadCenterY - 10})`) // Flytter affaldet til vejens midte.
+      .on("end", function () {
+        setTimeout(() => { trash.remove(); }, 5000); // Fjerner affaldet efter 5 sekunder.
+      });
+  }
+
+  // **Funktion til at dumpe affald fra lastbilen**
+  function dumpTrash() {
+    truck.transition()
+      .duration(500) // Tid for lastbilens vippebevægelse.
+      .attr("transform", `translate(${truckInitialX + 600}, ${truckY}) rotate(-10)`) // Vipper lastbilen bagud.
+      .on("end", () => {
+        generateTrash(); // Genererer affald.
+        truck.transition()
+          .duration(500) // Retter lastbilen op igen.
+          .attr("transform", `translate(${truckInitialX + 600}, ${truckY}) rotate(0)`)
+          .on("end", completeDrive); // Fortsætter kørslen.
+      });
+  }
+
+  // **Funktion til lastbilens kørsel**
+  function driveTruck() {
+    truck.transition()
+      .duration(7000) // Tid for lastbilens kørselsanimation.
+      .attr("transform", `translate(${truckInitialX + 600}, ${truckY})`) // Flytter lastbilen hen til dump-punktet.
+      .on("end", dumpTrash); // Starter affaldsdumpning.
+  }
+
+  // **Funktion til at afslutte kørslen**
+  function completeDrive() {
+    truck.transition()
+      .duration(2000) // Tid for lastbilen til at køre ud af billedet.
+      .attr("transform", `translate(${truckAnimationWidth + 100}, ${truckY})`) // Flytter lastbilen ud af lærredet.
+      .on("end", () => {
+        truck.attr("transform", `translate(${truckInitialX}, ${truckY})`); // Sætter lastbilen tilbage til startpositionen.
+        driveTruck(); // Starter animationen igen.
+      });
+  }
+
+  // **Starter animationen**
+  driveTruck(); // Kalder funktionen, der starter animationen.
+
+})();

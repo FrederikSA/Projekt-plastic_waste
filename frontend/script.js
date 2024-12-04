@@ -509,11 +509,6 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
     xPosition += xScale(d.Percentage);
   });
 
-  // Tilføj X-akse
-  svg.append("g")
-    .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(xScale).ticks(5));
-
   // Tilføj tooltip-element
   d3.select("body").append("div")
     .attr("id", "barTooltip")

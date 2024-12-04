@@ -161,83 +161,83 @@ path {
 /* End up visualisering */
 
  /* Where do plastic end-sektion styling */
-#plastic-end {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom, #154061, #20567f);
-  padding: 50px; /* Du kan reducere denne padding for at give mere plads */
-  color: #ffffff;
-  text-align: center;
+ #plastic-end {
+  display: flex; /* Angiver, at dette element skal bruge flexbox-layout for fleksibel justering af indhold */
+  flex-direction: column; /* Arrangerer de direkte child elements i en lodret stak */
+  align-items: center; /* Justerer child elements horisontalt i midten */
+  justify-content: center; /* Justerer child elements vertikalt i midten */
+  background: linear-gradient(to bottom, #154061, #20567f); /* Tilføjer en lodret gradient som baggrund */
+  padding: 50px; /* Giver plads rundt om indholdet inde i containeren */
+  color: #ffffff; /* Sætter tekstfarven til hvid for kontrast mod baggrunden */
+  text-align: center; /* Justerer teksten centralt inde i containeren */
 }
-  
+
 /* Juster margin under h2 for at reducere afstanden */
 #plastic-end h2 {
   font-size: 1.8em; /* Gør overskriften lidt større */
-  margin-bottom: 10px; /* Tilføjer lidt afstand under overskriften */
+  margin-bottom: 10px; /* Giver lidt afstand under overskriften */
 }
 
 .plastic-end p {
-  font-size: 1.1em; /* Øger tekstens størrelse lidt */
-  line-height: 1.5; /* Øger linjehøjden for bedre læsbarhed */
+  font-size: 1.1em; /* Øger tekstens størrelse for bedre læsbarhed */
+  line-height: 1.5; /* Øger afstanden mellem linjer */
 }
-  
+
 .chart-wrapper {
-  display: flex;
-  flex-direction: row; /* Ensures horizontal alignment */
-  justify-content: space-between; /* Creates space between items */
-  align-items: flex-start; /* Aligns items to the top */
-  width: 100%; /* Ensure the wrapper spans the full width */
-  max-width: 1200px; /* Optional: Limit the width for better layout control */
-  margin: 0 auto; /* Center the wrapper horizontally if smaller than the viewport */
-  gap: 20px; /* Adds spacing between the graph and the fact box */
+  display: flex; /* Definerer layoutet som en flex-container for fleksibel justering af indhold */
+  flex-direction: row; /* Arrangerer elementer i containeren horisontalt fra venstre mod højre */
+  justify-content: space-between; /* Fordeler elementerne med lige stor afstand mellem dem */
+  align-items: flex-start; /* Justerer elementernes topkanter, så de flugter vertikalt */
+  width: 100%; /* Sørger for, at containeren fylder hele bredden af dens parent element */
+  max-width: 1200px; /* Begrænser containerens maksimale bredde for at opretholde et harmonisk layout */
+  margin: 0 auto; /* Centrerer containeren horisontalt i dens parent element */
+  gap: 20px; /* Tilføjer et fast mellemrum mellem de elementer, der ligger ved siden af hinanden */
 }
 
 #chart-container {
-  flex: 6; /* Occupies 60% of the available space */
-  max-width: 60%; /* Ensures the graph doesn't exceed 60% of the width */
-  min-width: 0; /* Prevents the graph from growing too large */
+  flex: 6; /* Tildeler 60% af den tilgængelige plads */
+  max-width: 60%; /* Sikrer, at bredden ikke overstiger 60% */
+  min-width: 0; /* Forhindrer elementet i at blive for stort */
 }
 
 /* Styling for the chart section */
 #combined-chart-a {
-  width: 100%; /* Gør diagrammet 100% bredt */
-  height: 100%; /* Gør diagrammet 100% højt */
-  margin-top: -80px; /* Tilføjer afstand over diagrammet */
+  width: 100%; /* Gør diagrammet så bredt som containeren */
+  height: 100%; /* Gør diagrammet så højt som containeren */
+  margin-top: -80px; /* Trækker diagrammet opad */
   padding: 20px; /* Tilføjer padding inde i diagrammet */
 }
-  
+
 /* Tooltip styling */
 #barTooltip {
-  position: absolute; /* Absolute positioning for flexibility */
-  text-align: left; /* Left-align text */
-  padding: 10px; /* Add padding around the content */
-  background-color: white; /* White background for readability */
-  color: #333333; /* Dark gray text */
-  border-radius: 5px; /* Rounded corners */
-  border: 1px solid #ccc; /* Light gray border */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  pointer-events: none; /* Tooltip won't block user interactions */
-  opacity: 0; /* Initially hidden */
-  transition: opacity 0.2s ease; /* Smooth fade-in and fade-out effect */
-  z-index: 10; /* Placerer det foran andre elementer */
+  position: absolute; /* Tillader fri placering af tooltip */
+  text-align: left; /* Justerer teksten til venstre */
+  padding: 10px; /* Tilføjer plads omkring tooltip-teksten */
+  background-color: white; /* Giver en lys baggrund for kontrast */
+  color: #333333; /* Giver teksten en mørk farve */
+  border-radius: 5px; /* Gør hjørnerne runde */
+  border: 1px solid #ccc; /* Tilføjer en let kant omkring tooltip */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Tilføjer en skygge for dybde */
+  pointer-events: none; /* Forhindrer brugere i at interagere med tooltip */
+  opacity: 0; /* Starter som usynlig */
+  transition: opacity 0.2s ease; /* Giver en glidende overgang ved visning/skjul */
+  z-index: 10; /* Sørger for, at tooltip ligger øverst */
 }
 
 .fact-box.plastic-end {
-  flex: 4; /* Occupies 40% of the available space */
-  width: 420px; /* Øger bredden på fakta-boksen */
-  height: 400px; /* Matcher højden af grafen/sektionen */
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
-  color: #ffffff;
-  padding: 20px;
-  border: 1px solid #b2e1f5;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Let skygge */
-  display: flex; /* For bedre layout af indhold */
-  flex-direction: column; /* Stabler indholdet lodret */
-  justify-content: center; /* Centrerer indholdet lodret */
-  align-items: center; /* Centrerer indholdet vandret */
+  flex: 4; /* Tildeler 40% af den tilgængelige plads */
+  width: 420px; /* Gør faktaboksen en fast bredde */
+  height: 400px; /* Gør faktaboksen samme højde som grafen */
+  background-color: rgba(255, 255, 255, 0.1); /* Tilføjer en semitransparent baggrund */
+  color: #ffffff; /* Gør teksten hvid */
+  padding: 20px; /* Tilføjer plads inde i boksen */
+  border: 1px solid #b2e1f5; /* Tilføjer en kant med lys blå farve */
+  border-radius: 10px; /* Gør hjørnerne runde */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Tilføjer en skygge for dybde */
+  display: flex; /* Gør boksen til en flex-container */
+  flex-direction: column; /* Arrangerer indholdet lodret */
+  justify-content: center; /* Centrerer indholdet vertikalt */
+  align-items: center; /* Centrerer indholdet horisontalt */
 }
 
 

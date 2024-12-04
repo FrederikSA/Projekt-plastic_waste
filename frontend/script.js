@@ -406,9 +406,10 @@ const yScale = d3.scaleBand()
   .range([0, height])
   .padding(0.3);
 
+// Tilføjer farver til de forskellige data
 const colorScale = d3.scaleOrdinal()
-  .domain(["Rivers", "Coasts", "Floating close to the shoreline", "Sinks to seabed", "Transported offshore on the surface"])
-  .range(["#26709d", "#4f93b8", "#26709d", "#4f93b8", "#8c8c8c"]);
+  .domain(["Rivers", "Coasts", "Floating close to the shoreline", "Sinks to seabed", "Transported offshore on the surface"]) // data
+  .range(["#26709d", "#4f93b8", "#26709d", "#4f93b8", "#8c8c8c"]); // farver
 
 // Indlæs CSV-fil og generer grafen
 d3.csv("ocean_plastic_data.csv").then(function(data) {
@@ -507,11 +508,6 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
 
     xPosition += xScale(d.Percentage);
   });
-
-  // Tilføj X-akse
-  svg.append("g")
-    .attr("transform", `translate(0,${height})`)
-    .call(d3.axisBottom(xScale).ticks(5));
 
   // Tilføj tooltip-element
   d3.select("body").append("div")

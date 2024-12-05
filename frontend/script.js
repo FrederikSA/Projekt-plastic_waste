@@ -604,6 +604,14 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
       });
   }
 
+  // **Funktion til lastbilens kørsel**
+  function driveTruck() {
+    truck.transition()
+      .duration(9000) // Tid for lastbilens kørselsanimation.
+      .attr("transform", `translate(${truckInitialX + 900}, ${truckY})`) // Flytter lastbilen hen til dump-punktet.
+      .on("end", dumpTrash); // Starter affaldsdumpning.
+  }
+
   // **Funktion til at dumpe affald fra lastbilen**
   function dumpTrash() {
     truck.transition()
@@ -616,14 +624,6 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
           .attr("transform", `translate(${truckInitialX + 900}, ${truckY}) rotate(0)`)
           .on("end", completeDrive); // Fortsætter kørslen.
       });
-  }
-
-  // **Funktion til lastbilens kørsel**
-  function driveTruck() {
-    truck.transition()
-      .duration(9000) // Tid for lastbilens kørselsanimation.
-      .attr("transform", `translate(${truckInitialX + 900}, ${truckY})`) // Flytter lastbilen hen til dump-punktet.
-      .on("end", dumpTrash); // Starter affaldsdumpning.
   }
 
   // **Funktion til at afslutte kørslen**

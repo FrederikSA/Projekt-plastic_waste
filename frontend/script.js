@@ -374,97 +374,106 @@ d3.select("#visualization")
 
 
     // Niclas Visualisering
-    // Dimensioner for SVG-elementet
-// Definer marginer for grafen
-const barWidth = 800; // Bredde for grafen, fratrukket marginer
-const barHeight = 500; // Højde for grafen, fratrukket marginer
-const margin = { top: 20, right: 30, bottom: 50, left: 0.1 };
+// Dimensioner for SVG-elementet
+const barWidth = 800; // Bredden på SVG-elementet
+const barHeight = 500; // Højden på SVG-elementet
+const margin = { top: 20, right: 30, bottom: 50, left: 0.1 }; // Marginer omkring diagrammet
 
 // Opretter SVG-containeren til diagrammet
-const svg = d3.select("#combined-chart-a")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", `translate(${margin.left},${margin.top})`);
+const svg = d3.select("#combined-chart-a") // Vælg HTML-elementet med ID "combined-chart-a"
+  .attr("width", width + margin.left + margin.right) // Indstil den samlede bredde for SVG-elementet
+  .attr("height", height + margin.top + margin.bottom) // Indstil den samlede højde for SVG-elementet
+  .append("g") // Tilføj en gruppe (<g>) til SVG-elementet
+  .attr("transform", `translate(${margin.left},${margin.top})`); // Flyt gruppen ind i diagrammets marginer
 
 // Skalaer for X- og Y-akser
-const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
+const xScale = d3.scaleLinear().domain([0, 100]).range([0, width]); 
+// Definer en lineær skala for X-aksen, med domænet 0-100 og rækkevidden fra venstre til højre i diagrammet
+
 const yScale = d3.scaleBand()
-  .domain(["Sources of plastic into the ocean", "Where plastic goes in the ocean"])
-  .range([0, height])
-  .padding(0.3);
+  .domain(["Sources of plastic into the ocean", "Where plastic goes in the ocean"]) 
+  // Definer Y-aksernes kategorier
+  .range([0, height]) // Y-skalaens rækkevidde er fra top til bund
+  .padding(0.3); // Tilføj lidt mellemrum mellem kategorierne på Y-aksen
 
 // Tilføjer farver til de forskellige data
 const colorScale = d3.scaleOrdinal()
-  .domain(["Rivers", "Coasts", "Floating close to the shoreline", "Sinks to seabed", "Transported offshore on the surface"]) // data
-  .range(["#26709d", "#4f93b8", "#26709d", "#4f93b8", "#8c8c8c"]); // farver
+  .domain(["Rivers", "Coasts", "Floating close to the shoreline", "Sinks to seabed", "Transported offshore on the surface"]) 
+  // Subkategorierne, som skal have unikke farver
+  .range(["#26709d", "#4f93b8", "#26709d", "#4f93b8", "#8c8c8c"]); 
+  // De tilsvarende farver til subkategorierne
 
 // Indlæs CSV-fil og generer grafen
-d3.csv("ocean_plastic_data.csv").then(function(data) {
-  console.log(data);
+d3.csv("ocean_plastic_data.csv").then(function(data) { 
 
-  let xPosition = 0;
+  console.log(data); // Log dataene til konsollen for fejlsøgning
+
+  let xPosition = 0; // Variabel til at holde styr på placeringen af de vandrette søjler
 
   // Del data i to kategorier
-  const sources = data.filter(d => d.Category === "Sources of plastic into the ocean");
-  const destinations = data.filter(d => d.Category === "Where plastic goes in the ocean");
+  const sources = data.filter(d => d.Category === "Sources of plastic into the ocean"); 
+  // Filtrer data for "Sources of plastic into the ocean"
+  const destinations = data.filter(d => d.Category === "Where plastic goes in the ocean"); 
+  // Filtrer data for "Where plastic goes in the ocean"
 
   // Tilføj kategori-labels
   svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", yScale("Sources of plastic into the ocean") - 10)
-    .attr("text-anchor", "middle")
-    .attr("font-size", "16px")
-    .attr("font-weight", "bold")
-    .attr("fill", "#ffffff")
-    .text("Sources of plastic into the ocean");
+    .attr("x", width / 2) // Centrer teksten horisontalt
+    .attr("y", yScale("Sources of plastic into the ocean") - 10) // Placér teksten over den første kategori
+    .attr("text-anchor", "middle") // Centrer teksten
+    .attr("font-size", "16px") // Sæt skriftstørrelsen
+    .attr("font-weight", "bold") // Gør teksten fed
+    .attr("fill", "#ffffff") // Sæt tekstfarven til hvid
+    .text("Sources of plastic into the ocean"); // Teksten, der vises
 
   svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", yScale("Where plastic goes in the ocean") - 10)
-    .attr("text-anchor", "middle")
-    .attr("font-size", "16px")
-    .attr("font-weight", "bold")
-    .attr("fill", "#ffffff")
-    .text("Where plastic goes in the ocean");
+    .attr("x", width / 2) // Centrer teksten horisontalt
+    .attr("y", yScale("Where plastic goes in the ocean") - 10) // Placér teksten over den anden kategori
+    .attr("text-anchor", "middle") // Centrer teksten
+    .attr("font-size", "16px") // Sæt skriftstørrelsen
+    .attr("font-weight", "bold") // Gør teksten fed
+    .attr("fill", "#ffffff") // Sæt tekstfarven til hvid
+    .text("Where plastic goes in the ocean"); // Teksten, der vises
 
   // Tegn søjler for hver sektion
-  sources.forEach(d => {
+  sources.forEach(d => { // Iterér gennem dataene i "sources"
     svg.append("rect")
-      .attr("x", xPosition)
-      .attr("y", yScale("Sources of plastic into the ocean"))
-      .attr("width", xScale(d.Percentage))
-      .attr("height", yScale.bandwidth())
-      .attr("fill", colorScale(d.Subcategory))
-      .attr("stroke", "#b2e1f5")
-      .attr("stroke-width", 1)
-      .on("mouseover", function(event) {
-        d3.select("#barTooltip")
-          .style("opacity", 1)
-          .html(`<strong>Subcategory:</strong> ${d.Subcategory}<br><strong>Percentage:</strong> ${d.Percentage}%`);
+      .attr("x", xPosition) // Placér søjlen baseret på den aktuelle xPosition
+      .attr("y", yScale("Sources of plastic into the ocean")) // Placér søjlen i den relevante kategori
+      .attr("width", xScale(d.Percentage)) // Bredden af søjlen bestemmes af procentværdien
+      .attr("height", yScale.bandwidth()) // Højden af søjlen svarer til båndbredden på Y-aksen
+      .attr("fill", colorScale(d.Subcategory)) // Farven bestemmes af subkategorien
+      .attr("stroke", "#b2e1f5") // Tilføj en kantfarve
+      .attr("stroke-width", 1) // Sæt bredden af kanten
+      .on("mouseover", function(event) { // Når musen holdes over søjlen
+        d3.select("#barTooltip") 
+          .style("opacity", 1) // Gør tooltip'et synligt
+          .html(`<strong>Subcategory:</strong> ${d.Subcategory}<br><strong>Percentage:</strong> ${d.Percentage}%`); 
+          // Indholdet af tooltip'et
       })
-      .on("mouseout", function() {
-        d3.select("#barTooltip").style("opacity", 0);
+      .on("mouseout", function() { // Når musen fjernes fra søjlen
+        d3.select("#barTooltip").style("opacity", 0); // Skjul tooltip'et
       });
 
-    const fontSize = d.Percentage < 5 ? "10px" : "14px";
+    const fontSize = d.Percentage < 5 ? "10px" : "14px"; 
+    // Hvis procentværdien er lav, bruges en mindre skriftstørrelse
 
     svg.append("text")
-      .attr("x", xPosition + xScale(d.Percentage) / 2)
-      .attr("y", yScale("Sources of plastic into the ocean") + yScale.bandwidth() / 2)
-      .attr("dy", ".35em")
-      .attr("text-anchor", "middle")
-      .attr("fill", "#ffffff")
-      .attr("font-size", fontSize)
-      .attr("font-weight", "bold")
-      .text(`${d.Percentage}%`);
+      .attr("x", xPosition + xScale(d.Percentage) / 2) // Placér teksten midt i søjlen
+      .attr("y", yScale("Sources of plastic into the ocean") + yScale.bandwidth() / 2) // Placér teksten midt i højden
+      .attr("dy", ".35em") // Justér tekstens placering vertikalt
+      .attr("text-anchor", "middle") // Centrer teksten horisontalt
+      .attr("fill", "#ffffff") // Sæt tekstfarven til hvid
+      .attr("font-size", fontSize) // Brug den beregnede skriftstørrelse
+      .attr("font-weight", "bold") // Gør teksten fed
+      .text(`${d.Percentage}%`); // Teksten er procentværdien
 
-    xPosition += xScale(d.Percentage);
+    xPosition += xScale(d.Percentage); // Opdater xPosition til næste søjle
   });
 
-  xPosition = 0;
+  xPosition = 0; // Nulstil xPosition for "destinations"-sektionen
 
-  destinations.forEach(d => {
+  destinations.forEach(d => { // Iterér gennem dataene i "destinations"
     svg.append("rect")
       .attr("x", xPosition)
       .attr("y", yScale("Where plastic goes in the ocean"))
@@ -499,15 +508,15 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
 
   // Tilføj tooltip-element
   d3.select("body").append("div")
-    .attr("id", "barTooltip")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+    .attr("id", "barTooltip") // Definer ID'et for tooltip-elementet
+    .attr("class", "tooltip") // Giv tooltip'et en CSS-klasse
+    .style("opacity", 0); // Skjul tooltip'et ved oprettelsen
 
   // Opdater tooltip'ets position baseret på musens bevægelse
   svg.on("mousemove", function(event) {
     d3.select("#barTooltip")
-      .style("left", `${event.pageX - 180}px`)
-      .style("top", `${event.pageY - 28}px`);
+      .style("left", `${event.pageX - 180}px`) // Justér tooltip'ets horisontale position
+      .style("top", `${event.pageY - 28}px`); // Justér tooltip'ets vertikale position
   });
 });
 
@@ -595,6 +604,14 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
       });
   }
 
+  // **Funktion til lastbilens kørsel**
+  function driveTruck() {
+    truck.transition()
+      .duration(9000) // Tid for lastbilens kørselsanimation.
+      .attr("transform", `translate(${truckInitialX + 900}, ${truckY})`) // Flytter lastbilen hen til dump-punktet.
+      .on("end", dumpTrash); // Starter affaldsdumpning.
+  }
+
   // **Funktion til at dumpe affald fra lastbilen**
   function dumpTrash() {
     truck.transition()
@@ -607,14 +624,6 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
           .attr("transform", `translate(${truckInitialX + 900}, ${truckY}) rotate(0)`)
           .on("end", completeDrive); // Fortsætter kørslen.
       });
-  }
-
-  // **Funktion til lastbilens kørsel**
-  function driveTruck() {
-    truck.transition()
-      .duration(9000) // Tid for lastbilens kørselsanimation.
-      .attr("transform", `translate(${truckInitialX + 900}, ${truckY})`) // Flytter lastbilen hen til dump-punktet.
-      .on("end", dumpTrash); // Starter affaldsdumpning.
   }
 
   // **Funktion til at afslutte kørslen**

@@ -1,156 +1,144 @@
 // FREDERIKS WORLD MAP
 
-// Fjern tidligere infoboks
+// Fjern tidligere infoboks, hvis den findes
 d3.select("#infoBoksMap").remove();
 
-// Fjern tidligere kort (hvis det findes)
+// Fjern tidligere kort (alle elementer inden for SVG'en), hvis det findes
 d3.select("#my_dataviz").selectAll("*").remove();
 
-// Farveskala
-var mapColorScale = d3.scaleLog()
-  .domain([0.000001, 0.0025, 0.0236, 0.1736, 1, 3.3, 10]) // Intervaller
-  .range(["#FFFFEA", "#F2D6A2", "#F2A25C", "#D96E48", "#8C5642", "#5A2C2C", "#3E1A1A"]); // Farver til intervaller
+// Definer farveskala til kortet
+var mapColorScale = d3.scaleLog() // Brug logaritmisk skala til farveintervaller
+  .domain([0.000001, 0.0025, 0.0236, 0.1736, 1, 3.3, 10]) // Intervaller for affaldsmængder
+  .range(["#FFFFEA", "#F2D6A2", "#F2A25C", "#D96E48", "#8C5642", "#5A2C2C", "#3E1A1A"]); // Farver til intervallerne
 
-// The SVG
-var mapSvg = d3.select("#my_dataviz"),
-  mapWidth = +mapSvg.attr("width"),
-  mapHeight = +mapSvg.attr("height");
+// Hent SVG-elementet til kortet og dets dimensioner
+var mapSvg = d3.select("#my_dataviz"), // Vælger SVG-elementet
+  mapWidth = +mapSvg.attr("width"), // Får bredden fra SVG-elementets attribut
+  mapHeight = +mapSvg.attr("height"); // Får højden fra SVG-elementets attribut
 
-// Opret SVG til infoboks til world map
-var mapInfoBoksSvg = d3.select("#world-map")
-  .append("svg")
-  .attr("id", "infoBoksMap")
-  .attr("width", 200)
-  .attr("height", 300);
+// Opret SVG til infoboks, der viser forklaringer
+var mapInfoBoksSvg = d3.select("#world-map") // Vælg container til infoboksen
+  .append("svg") // Tilføj en SVG til infoboksen
+  .attr("id", "infoBoksMap") // Giv den et ID for nem adgang
+  .attr("width", 200) // Sæt infoboksens bredde
+  .attr("height", 300); // Sæt infoboksens højde
 
-// Infoboks data
+// Data til infoboksen, der indeholder farver og beskrivelser
 var mapInfoBoksData = [
-  { color: "grey", text: "No data" },
-  { color: "#FFFFEA", text: "0 - 0.0025 kg" },
-  { color: "#F2D6A2", text: "0.0025 - 0.0236 kg" },
+  { color: "grey", text: "No data" }, // Ingen data, så skal den være grå
+  { color: "#FFFFEA", text: "0 - 0.0025 kg" }, // Farve og interval for lav affaldsmængde
+  { color: "#F2D6A2", text: "0.0025 - 0.0236 kg" }, // Næste interval
   { color: "#F2A25C", text: "0.0236 - 0.1736 kg" },
   { color: "#D96E48", text: "0.1736 - 1 kg" },
   { color: "#8C5642", text: "1 - 3.3 kg" },
-  { color: "#3E1A1A", text: "3.3 - 10 kg" }
+  { color: "#3E1A1A", text: "3.3 - 10 kg" } // Højeste affaldsniveau
 ];
 
-// Tilføj farvebokse
-mapInfoBoksData.forEach(function(d, i) {
-  mapInfoBoksSvg.append("rect")
-    .attr("x", 0)
-    .attr("y", 20 + i * 30)
-      .attr("width", 20)
-      .attr("height", 20)
-      .attr("fill", d.color)
-      .attr("stroke", "black");
+// Tilføj farvebokse og tekst til infoboksen
+mapInfoBoksData.forEach(function(d, i) { // Gennemløb hvert dataelement
+  mapInfoBoksSvg.append("rect") // Tilføj en farvet firkant
+    .attr("x", 0) // Placér firkanten i venstre side
+    .attr("y", 20 + i * 30) // Juster vertikal placering for hver række
+    .attr("width", 20) // Firkantens bredde
+    .attr("height", 20) // Firkantens højde
+    .attr("fill", d.color) // Firkantens farve fra data
+    .attr("stroke", "black"); // Sort kant omkring firkanten
 
-// Teksten, som står til højre for farven
-mapInfoBoksSvg.append("text")
-  .attr("x", 30)
-  .attr("y", 35 + i * 30)
-  .text(d.text)
-  .style("font-size", "14px")
-  .style("font-family", "Arial, sans-serif")
-  .attr("alignment-baseline", "middle")
-  .attr("fill", "#ffffff");
+  mapInfoBoksSvg.append("text") // Tilføj forklarende tekst ved siden af firkanten
+    .attr("x", 30) // Placér teksten lidt til højre for firkanten
+    .attr("y", 35 + i * 30) // Juster vertikal placering for hver række
+    .text(d.text) // Sæt teksten fra data
+    .style("font-size", "14px") // Tekstens størrelse
+    .style("font-family", "Arial, sans-serif") // Skrifttype
+    .attr("alignment-baseline", "middle") // Justér teksten lodret i midten
+    .attr("fill", "#ffffff"); // Hvid tekstfarve
 });
 
-// Map and projection
-var mapProjection = d3.geoNaturalEarth1()
-  .scale(mapWidth / 1.8 / Math.PI)
-  .translate([mapWidth / 2, mapHeight / 1.8]);
+// Opret kortprojektion
+var mapProjection = d3.geoNaturalEarth1() // Brug Natural Earth-projektion
+  .scale(mapWidth / 1.8 / Math.PI) // Skaler kortet til SVG's bredde
+  .translate([mapWidth / 2, mapHeight / 1.8]); // Centrer kortet i SVG'en
 
-// Funktion til at give mig data, hvis vi har data og ellers give mig "Data mangler"
+// Funktion til at hente affaldsdata eller returnere "No data"
 function mapWaste(countrydata) {
-  if (countrydata.length === 0)
-      return "No data";
+  if (countrydata.length === 0) // Hvis der ikke er data
+      return "No data"; // Returner teksten "No data"
   else
-      return countrydata[0].waste_kg_per_capita + " kg";
+      return countrydata[0].waste_kg_per_capita + " kg"; // Returner affaldsmængden
 }
 
-// Funktion til at hente farve baseret på landets plastikdata
+// Funktion til at finde farve for et land baseret på dets affaldsdata
 function mapGetCountryColor(countryId) {
-  return new Promise((resolve) => {
-    d3.json("/api/percapita?countryId=" + countryId)
+  return new Promise((resolve) => { // Returner et løfte for asynkron datahentning
+    d3.json("/api/percapita?countryId=" + countryId) // Hent data for landet
         .then(function(countrydata) {
-            if (countrydata.length === 0) {
-                resolve("grey"); // Standardfarve for lande uden data
+            if (countrydata.length === 0) { // Hvis der ikke er data
+                resolve("grey"); // Returner grå farve
             } else {
-                var plasticAmount = +countrydata[0].waste_kg_per_capita;
-                resolve(mapColorScale(plasticAmount)); // Returner farven for lande med data
+                var plasticAmount = +countrydata[0].waste_kg_per_capita; // Konverter affaldsmængden til tal
+                resolve(mapColorScale(plasticAmount)); // Brug farveskala til at finde farven
             }
         })
-        .catch(function(error) {
-          console.error("Error fetching country data:", error);
-          resolve("grey");
+        .catch(function(error) { // Hvis der opstår en fejl
+          console.error("Error fetching country data:", error); // Log fejlen
+          resolve("grey"); // Returner grå farve som standard
         });
   });
 }
 
-// Load external data and boot
-d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+// Hent GeoJSON-data og tegn kortet
+d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson") // Hent data til kortet
     .then(function(data) {
-      // Draw the map
-      mapSvg.append("g")
-          .selectAll("path")
-          .data(data.features)
-          .enter().append("path")
-          .attr("d", d3.geoPath().projection(mapProjection))
-          .style("stroke", "#fff")
+      mapSvg.append("g") // Tilføj en gruppe til kortet
+          .selectAll("path") // Forbered til at tegne lande
+          .data(data.features) // Bind GeoJSON-data til landene
+          .enter().append("path") // Tegn lande som stier
+          .attr("d", d3.geoPath().projection(mapProjection)) // Brug projektionen til at tegne
+          .style("stroke", "#fff") // Tilføj hvid kant til landene
           .each(function(d) {
-            // Hent farve til hvert land og opdater
-            mapGetCountryColor(d.id).then(color => {
-              d3.select(this).attr("fill", color || "#ccc"); // Default farve, hvis der mangler data
+            mapGetCountryColor(d.id).then(color => { // Hent farve for landet
+              d3.select(this).attr("fill", color || "#ccc"); // Sæt farven eller standardfarve
               });
           })
-          .on("click", function(event, d) {
-            d3.json("/api/percapita?countryId=" + d.id)
+          .on("click", function(event, d) { // Når et land klikkes
+            d3.json("/api/percapita?countryId=" + d.id) // Hent data for landet
               .then(function(countrydata) {
-                console.log(countrydata);
+                console.log(countrydata); // Log dataen
               });
           })
-          .on("mouseover", function(event, d) {
-            // Fjern dæmpning fra det aktuelle land
-            d3.select(this).classed("highlight", true);
-
-            // Tilføj dæmpning til alle andre lande
-            d3.selectAll("path").classed("dim", true);
-            d3.select(this).classed("dim", false);
-
-            // Hent data for landet
-            d3.json("/api/percapita?countryId=" + d.id)
+          .on("mouseover", function(event, d) { // Når musen er over et land
+            d3.select(this).classed("highlight", true); // Fremhæv landet
+            d3.selectAll("path").classed("dim", true); // Dæmp andre lande
+            d3.select(this).classed("dim", false); // Fjern dæmpning fra aktuelt land
+            d3.json("/api/percapita?countryId=" + d.id) // Hent data for landet
                 .then(function(countrydata) {
-                  d3.select(".tooltipmap").remove();
-
-                  // Tilføjer en simpel pop-up (tooltip) med data fra API'en
-                  d3.select("body").append("div")
-                    .attr("class", "tooltipmap")
-                    .style("position", "absolute")
-                    .style("background", "#ffffff")
-                    .style("color", "#000000")
-                    .style("padding", "5px")
-                    .style("border", "1px solid #ccc")
-                    .style("border-radius", "5px")
-                    .style("pointer-events", "none")
-                    .style("top", (event.pageY - 20) + "px")
-                    .style("left", (event.pageX + 20) + "px")
+                  d3.select(".tooltipmap").remove(); // Fjern tidligere tooltip
+                  d3.select("body").append("div") // Tilføj ny tooltip
+                    .attr("class", "tooltipmap") // Giv tooltip en klasse
+                    .style("position", "absolute") // Placér tooltipen frit
+                    .style("background", "#ffffff") // Hvid baggrund
+                    .style("color", "#000000") // Sort tekst
+                    .style("padding", "5px") // Indvendig afstand
+                    .style("border", "1px solid #ccc") // Grå kant
+                    .style("border-radius", "5px") // Runde hjørner
+                    .style("pointer-events", "none") // Deaktiver mus på tooltip
+                    .style("top", (event.pageY - 20) + "px") // Placér tooltip over musen
+                    .style("left", (event.pageX + 20) + "px") // Placér tooltip til højre for musen
                     .html(`
                       <strong>Country:</strong> ${d.properties.name || "Ukendt land"}<br>
                       <strong>Waste per capita:</strong> ${mapWaste(countrydata)}
-                      `);
+                      `); // Indhold til tooltip
                 });
           })
-          .on("mouseout", function() {
-            // Fjern highlight fra alle lande
-            d3.selectAll("path").classed("highlight", false).classed("dim", false);
-
-            // Fjern tooltip
-            d3.select(".tooltipmap").remove();
+          .on("mouseout", function() { // Når musen forlader landet
+            d3.selectAll("path").classed("highlight", false).classed("dim", false); // Fjern fremhævning
+            d3.select(".tooltipmap").remove(); // Fjern tooltip
           });
     })
-    .catch(function(error) {
-        console.error("Error loading GeoJSON data:", error);
+    .catch(function(error) { // Hvis data ikke kan hentes
+        console.error("Error loading GeoJSON data:", error); // Log fejl
     });
+
 
 
 
@@ -522,3 +510,125 @@ d3.csv("ocean_plastic_data.csv").then(function(data) {
       .style("top", `${event.pageY - 28}px`);
   });
 });
+
+
+
+
+
+
+
+
+// Truck i bunden af hjemmesiden
+(function () {
+  // **Truck Animation Unique Variables**
+  // Definerer konstanter, der bruges til at styre animationens dimensioner og udseende.
+  const truckAnimationSvg = d3.select("#truckAnimationCanvas"); // Vælger SVG-elementet, hvor animationen tegnes.
+  const truckAnimationWidth = 800; // Bredden på lærredet for animationen.
+  const truckAnimationHeight = 160; // Højden på lærredet for animationen.
+  const truckInitialX = -420; // Lastbilens startposition uden for synsfeltet til venstre.
+  const truckY = 70; // Lastbilens lodrette position på lærredet.
+  const roadHeight = 50; // Højden på vejen.
+  const stripeWidth = 20; // Bredden af de hvide vejstriber.
+  const stripeHeight = 5; // Højden af de hvide vejstriber.
+  const stripeSpacing = 30; // Afstanden mellem striberne.
+
+  // **Sætter dimensioner for SVG-elementet**
+  truckAnimationSvg.attr("width", truckAnimationWidth).attr("height", truckAnimationHeight);
+
+  // **Tegner vejen som en grå rektangel**
+  truckAnimationSvg.append("rect")
+    .attr("x", 0) // Starter ved venstre kant af SVG-elementet.
+    .attr("y", truckAnimationHeight - roadHeight - 60) // Positionerer vejen nederst i SVG-elementet.
+    .attr("width", truckAnimationWidth) // Bredden på vejen svarer til SVG-elementets bredde.
+    .attr("height", roadHeight) // Højden på vejen.
+    .attr("fill", "#4a4a4a"); // Grå farve til vejen.
+
+  // **Tilføjer hvide striber til vejen**
+  for (let i = 0; i < truckAnimationWidth; i += stripeWidth + stripeSpacing) {
+    truckAnimationSvg.append("rect")
+      .attr("x", i) // Starter hver stribe med en given afstand.
+      .attr("y", truckAnimationHeight - roadHeight / 2 - stripeHeight / 2 - 60) // Centrerer striberne på vejen.
+      .attr("width", stripeWidth) // Bredden på hver stribe.
+      .attr("height", stripeHeight) // Højden på hver stribe.
+      .attr("fill", "#ffffff"); // Stribernes farve er hvid.
+  }
+
+  // **Tegner lastbilen som en gruppe af grafiske elementer**
+  const truck = truckAnimationSvg.append("g")
+    .attr("class", "truck") // Tilføjer klassen "truck" for styling eller genkendelse.
+    .attr("transform", `translate(${truckInitialX}, ${truckY})`); // Positionerer lastbilen på lærredet.
+
+  // **Tilføjer rektangler og cirkler til at tegne lastbilens krop og hjul**
+  truck.append("rect").attr("x", 0).attr("y", -50).attr("width", 120).attr("height", 60).attr("fill", "#2e7d32"); // Lastbilens trailer.
+  truck.append("rect").attr("x", 120).attr("y", -30).attr("width", 60).attr("height", 40).attr("fill", "#4caf50"); // Lastbilens førerhus.
+  truck.append("rect").attr("x", 130).attr("y", -25).attr("width", 20).attr("height", 15).attr("fill", "#cfd8dc"); // Lastbilens vindue.
+  truck.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 10).attr("fill", "#212121"); // Første hjul.
+  truck.append("circle").attr("cx", 80).attr("cy", 20).attr("r", 10).attr("fill", "#212121"); // Andet hjul.
+  truck.append("circle").attr("cx", 140).attr("cy", 20).attr("r", 10).attr("fill", "#212121"); // Tredje hjul.
+
+  // **Funktion til at generere affald**
+  function generateTrash() {
+    const trash = truckAnimationSvg.append("g") // Opretter en gruppe til affald.
+      .attr("class", "trash") // Tilføjer klassen "trash".
+      .attr("transform", `translate(${truckInitialX + 880}, ${truckY - 10})`); // Positionerer affaldet bag lastbilen.
+
+    for (let i = 0; i < 10; i++) { // Genererer 10 tilfældige affaldselementer.
+      const x = Math.random() * 50 - 20; // Tilfældig vandret placering.
+      const y = Math.random() * 40 - 20; // Tilfældig lodret placering.
+      const size = Math.random() * 8 + 5; // Tilfældig størrelse på affaldselementet.
+
+      trash.append("rect")
+        .attr("x", x) // Vandret position.
+        .attr("y", y) // Lodret position.
+        .attr("width", size) // Bredden på affaldet.
+        .attr("height", size) // Højden på affaldet.
+        .attr("fill", `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`) // Tilfældig farve.
+        .attr("opacity", 0.8); // Gennemsigtighed.
+    }
+
+    const roadCenterY = truckAnimationHeight - roadHeight + roadHeight / 2; // Vejenes midterlinje.
+    trash.transition()
+      .duration(1000) // Animationens varighed.
+      .attr("transform", `translate(${truckInitialX + 860}, ${roadCenterY - 5})`) // Flytter affaldet til vejens midte.
+      .on("end", function () {
+        setTimeout(() => { trash.remove(); }, 34500); // Fjerner affaldet efter 34,5 sekunder.
+      });
+  }
+
+  // **Funktion til at dumpe affald fra lastbilen**
+  function dumpTrash() {
+    truck.transition()
+      .duration(500) // Tid for lastbilens vippebevægelse.
+      .attr("transform", `translate(${truckInitialX + 900}, ${truckY}) rotate(-10)`) // Vipper lastbilen bagud.
+      .on("end", () => {
+        generateTrash(); // Genererer affald.
+        truck.transition()
+          .duration(500) // Retter lastbilen op igen.
+          .attr("transform", `translate(${truckInitialX + 900}, ${truckY}) rotate(0)`)
+          .on("end", completeDrive); // Fortsætter kørslen.
+      });
+  }
+
+  // **Funktion til lastbilens kørsel**
+  function driveTruck() {
+    truck.transition()
+      .duration(9000) // Tid for lastbilens kørselsanimation.
+      .attr("transform", `translate(${truckInitialX + 900}, ${truckY})`) // Flytter lastbilen hen til dump-punktet.
+      .on("end", dumpTrash); // Starter affaldsdumpning.
+  }
+
+  // **Funktion til at afslutte kørslen**
+  function completeDrive() {
+    truck.transition()
+      .duration(1500) // Tid for lastbilen til at køre ud af billedet.
+      .attr("transform", `translate(${truckAnimationWidth + 100}, ${truckY})`) // Flytter lastbilen ud af lærredet.
+      .on("end", () => {
+        truck.attr("transform", `translate(${truckInitialX}, ${truckY})`); // Sætter lastbilen tilbage til startpositionen.
+        driveTruck(); // Starter animationen igen.
+      });
+  }
+
+  // **Starter animationen**
+  driveTruck(); // Kalder funktionen, der starter animationen.
+
+})();

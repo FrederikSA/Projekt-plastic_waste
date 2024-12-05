@@ -1,151 +1,140 @@
-// Fjern tidligere infoboks
+// Fjern tidligere infoboks, hvis den findes
 d3.select("#infoBoksMap").remove();
 
-// Fjern tidligere kort (hvis det findes)
+// Fjern tidligere kort, hvis det findes
 d3.select("#my_dataviz").selectAll("*").remove();
 
-// Farveskala
-var recycleMapColorScale = d3.scaleLog()
-    .domain([0.01, 5, 25, 45, 65, 85]) // Recycling Rate intervaller
+// Opret farveskala til kortet
+var recycleMapColorScale = d3.scaleLog() // Brug logaritmisk skala for jævnt at håndtere data
+    .domain([0.01, 5, 25, 45, 65, 85]) // Intervaller for genbrugsrater
     .range(["#eef9e0", "#C7E9C0", "#7FCDBB", "#41a891", "#317e6c", "#215448"]); // Farver til intervaller
 
-// The svg
-var recycleMapSvg = d3.select("#my_dataviz"),
-    recycleMapWidth = +recycleMapSvg.attr("width"),
-    recycleMapHeight = +recycleMapSvg.attr("height");
+// Hent SVG-element og dimensioner til kortet
+var recycleMapSvg = d3.select("#my_dataviz"), // Vælg SVG-elementet
+    recycleMapWidth = +recycleMapSvg.attr("width"), // Hent bredde fra SVG-element
+    recycleMapHeight = +recycleMapSvg.attr("height"); // Hent højde fra SVG-element
 
-// Opret SVG til infoboks til world map
-var recycleMapInfoBoksSvg = d3.select("#world-map")
-    .append("svg")
-    .attr("id", "infoBoksMap")
-    .attr("width", 200)
-    .attr("height", 300);
+// Opret SVG-element til infoboks
+var recycleMapInfoBoksSvg = d3.select("#world-map") // Vælg containeren
+    .append("svg") // Tilføj SVG til infoboksen
+    .attr("id", "infoBoksMap") // Giv infoboksen et ID
+    .attr("width", 200) // Sæt bredde
+    .attr("height", 300); // Sæt højde
 
-// Infoboks data
+// Data til infoboks (farver og intervaller)
 var recycleMapInfoBoksData = [
-    { color: "grey", text: "No data" },
-    { color: "#eef9e0", text: "0% - 5%" },
+    { color: "grey", text: "No data" }, // Ingen data
+    { color: "#eef9e0", text: "0% - 5%" }, // Laveste interval
     { color: "#C7E9C0", text: "5% - 25%" },
     { color: "#7FCDBB", text: "25% - 45%" },
     { color: "#41a891", text: "45% - 65%" },
     { color: "#317e6c", text: "65% - 85%" },
-    { color: "#215448", text: "85% - 100%" }
+    { color: "#215448", text: "85% - 100%" } // Højeste interval
 ];
 
-// Tilføj farvebokse
-recycleMapInfoBoksData.forEach(function(d, i) {
-    recycleMapInfoBoksSvg.append("rect")
-        .attr("x", 0)
-        .attr("y", 20 + i * 30)
-        .attr("width", 20)
-        .attr("height", 20)
-        .attr("fill", d.color)
-        .attr("stroke", "black");
+// Tilføj farvebokse og labels til infoboksen
+recycleMapInfoBoksData.forEach(function(d, i) { // Iterér gennem data
+    recycleMapInfoBoksSvg.append("rect") // Tilføj en farvet firkant
+        .attr("x", 0) // Placér til venstre
+        .attr("y", 20 + i * 30) // Juster lodret position
+        .attr("width", 20) // Sæt bredde
+        .attr("height", 20) // Sæt højde
+        .attr("fill", d.color) // Brug farve fra data
+        .attr("stroke", "black"); // Tilføj sort kant
 
-    // Teksten, som står til højre for farven
-    recycleMapInfoBoksSvg.append("text")
-        .attr("x", 30)
-        .attr("y", 35 + i * 30)
-        .text(d.text)
-        .style("font-size", "14px")
-        .style("font-family", "Arial, sans-serif")
-        .attr("alignment-baseline", "middle")
-        .attr("fill", "#ffffff");
+    recycleMapInfoBoksSvg.append("text") // Tilføj tekst ved siden af firkanten
+        .attr("x", 30) // Flyt tekst lidt til højre
+        .attr("y", 35 + i * 30) // Juster lodret position
+        .text(d.text) // Brug tekst fra data
+        .style("font-size", "14px") // Sæt tekststørrelse
+        .style("font-family", "Arial, sans-serif") // Brug Arial-skrifttype
+        .attr("alignment-baseline", "middle") // Centrer teksten lodret
+        .attr("fill", "#ffffff"); // Sæt tekstfarve til hvid
 });
 
-// Map and projection
-var recycleMapProjection = d3.geoNaturalEarth1()
-    .scale(recycleMapWidth / 1.8 / Math.PI)
-    .translate([recycleMapWidth / 2, recycleMapHeight / 1.8]);
+// Opret kortprojektion
+var recycleMapProjection = d3.geoNaturalEarth1() // Brug Natural Earth-projektion
+    .scale(recycleMapWidth / 1.8 / Math.PI) // Skaler kortet til SVG-bredde
+    .translate([recycleMapWidth / 2, recycleMapHeight / 1.8]); // Centrer kortet
 
-// Funktion til at give data hvis vi har data, og ellers give "No data"
+// Funktion til at returnere genbrugsdata eller "No data"
 function recycleMapWaste(countrydata) {
-    if (countrydata.length === 0)
-        return "No data";
+    if (countrydata.length === 0) // Hvis ingen data
+        return "No data"; // Returner standardtekst
     else
-        return countrydata[0].recycling_rate + "%";
+        return countrydata[0].recycling_rate + "%"; // Returner genbrugsrate
 }
 
-// Funktion til at hente farve baseret på landets genbrugsdata
+// Funktion til at finde farve for et land baseret på genbrugsdata
 function recycleMapGetCountryColor(countryId) {
-    return new Promise((resolve) => {
-        d3.json("/api/recycleinfo?countryId=" + countryId)
+    return new Promise((resolve) => { // Returner et løfte
+        d3.json("/api/recycleinfo?countryId=" + countryId) // Hent data for landet
             .then(function(countrydata) {
-                if (countrydata.length === 0) {
-                    resolve("grey"); // Standardfarve for lande uden data
+                if (countrydata.length === 0) { // Hvis ingen data
+                    resolve("grey"); // Brug grå farve
                 } else {
-                    var recyclingRate = +countrydata[0].recycling_rate;
-                    resolve(recycleMapColorScale(recyclingRate)); // Returner farven for lande med data
+                    var recyclingRate = +countrydata[0].recycling_rate; // Konverter genbrugsrate til tal
+                    resolve(recycleMapColorScale(recyclingRate)); // Brug farveskala til at finde farve
                 }
             })
-            .catch(function(error) {
-                console.error("Error fetching country data:", error);
-                resolve("grey");
+            .catch(function(error) { // Ved fejl
+                console.error("Error fetching country data:", error); // Log fejl
+                resolve("grey"); // Returner grå som standard
             });
     });
 }
 
-// Load external data and boot
-d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+// Hent GeoJSON-data og tegn kortet
+d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson") // Hent data
     .then(function(data) {
-        // Draw the map
-        recycleMapSvg.append("g")
-            .selectAll("path")
-            .data(data.features)
-            .enter().append("path")
-                .attr("d", d3.geoPath().projection(recycleMapProjection))
-                .style("stroke", "#fff")
+        recycleMapSvg.append("g") // Tilføj en gruppe til kortet
+            .selectAll("path") // Forbered landene som paths
+            .data(data.features) // Bind data til landene
+            .enter().append("path") // Tegn hvert land
+                .attr("d", d3.geoPath().projection(recycleMapProjection)) // Brug projektionen
+                .style("stroke", "#fff") // Tilføj hvid kant
                 .each(function(d) {
-                    // Hent farve til hvert land og opdater
-                    recycleMapGetCountryColor(d.id).then(color => {
-                        d3.select(this).attr("fill", color || "#ccc"); // Default farve, hvis der mangler data
+                    recycleMapGetCountryColor(d.id).then(color => { // Hent farve for landet
+                        d3.select(this).attr("fill", color || "#ccc"); // Brug farve eller standardfarve
                     });
                 })
-                .on("click", function(event, d) {
-                    d3.json("/api/recycleinfo?countryId=" + d.id)
+                .on("click", function(event, d) { // Ved klik
+                    d3.json("/api/recycleinfo?countryId=" + d.id) // Hent data for landet
                         .then(function(countrydata) {
-                            console.log(countrydata);
+                            console.log(countrydata); // Log data
                         });
                 })
-                .on("mouseover", function(event, d) {
-                    // Fjern dæmpning fra det aktuelle land
-                    d3.select(this).classed("highlight", true);
-
-                    // Tilføj dæmpning til alle andre lande
-                    d3.selectAll("path").classed("dim", true);
-                    d3.select(this).classed("dim", false);
-
-                    // Hent data for landet
-                    d3.json("/api/recycleinfo?countryId=" + d.id)
+                .on("mouseover", function(event, d) { // Ved musover
+                    d3.select(this).classed("highlight", true); // Fremhæv landet
+                    d3.selectAll("path").classed("dim", true); // Dæmp andre lande
+                    d3.select(this).classed("dim", false); // Fjern dæmpning for aktuelt land
+                    d3.json("/api/recycleinfo?countryId=" + d.id) // Hent data
                         .then(function(countrydata) {
-                            d3.select(".tooltipmap").remove();
+                            d3.select(".tooltipmap").remove(); // Fjern tidligere tooltip
 
-                            // Tilføjer en simpel pop-up (tooltip) med data fra API'en
+                            // Tilføj en tooltip med data
                             d3.select("body").append("div")
-                                .attr("class", "tooltipmap")
-                                .style("position", "absolute")
-                                .style("background", "#ffffff")
-                                .style("color", "#000000")
-                                .style("padding", "5px")
-                                .style("border", "1px solid #ccc")
-                                .style("border-radius", "5px")
-                                .style("pointer-events", "none")
-                                .style("top", (event.pageY - 20) + "px")
-                                .style("left", (event.pageX + 20) + "px")
+                                .attr("class", "tooltipmap") // Giv tooltip klasse
+                                .style("position", "absolute") // Placér tooltip frit
+                                .style("background", "#ffffff") // Hvid baggrund
+                                .style("color", "#000000") // Sort tekst
+                                .style("padding", "5px") // Tilføj padding
+                                .style("border", "1px solid #ccc") // Tilføj grå kant
+                                .style("border-radius", "5px") // Runde hjørner
+                                .style("pointer-events", "none") // Ingen mus-interaktion
+                                .style("top", (event.pageY - 20) + "px") // Placér tooltip over mus
+                                .style("left", (event.pageX + 20) + "px") // Placér tooltip til højre
                                 .html(`
                                     <strong>Country:</strong> ${d.properties.name || "Ukendt land"}<br>
                                     <strong>Recycling rate:</strong> ${recycleMapWaste(countrydata)}
-                                `);
+                                `); // Indsæt data
                         });
                 })
-                .on("mouseout", function() {
-                    // Fjern highlight fra alle lande
-                    d3.selectAll("path").classed("highlight", false).classed("dim", false);
-
-                    // Fjern tooltip
-                    d3.select(".tooltipmap").remove();
+                .on("mouseout", function() { // Ved mus ud af landet
+                    d3.selectAll("path").classed("highlight", false).classed("dim", false); // Fjern fremhævning
+                    d3.select(".tooltipmap").remove(); // Fjern tooltip
                 });
     })
-    .catch(function(error) {
-        console.error("Error loading GeoJSON data:", error);
+    .catch(function(error) { // Hvis der opstår fejl
+        console.error("Error loading GeoJSON data:", error); // Log fejlen
     });

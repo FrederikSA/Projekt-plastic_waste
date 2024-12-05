@@ -2,7 +2,7 @@
 body {
   font-family: Arial, sans-serif;
   color: #ffffff;
-  background: linear-gradient(to bottom, #092337, #3b83b9); /* Baggrundsfarve der matcher designet */
+  background-color: #3b83b9; /* Baggrundsfarve der matcher designet */
   margin: 0;
   padding: 0;
   position: relative;
@@ -528,3 +528,39 @@ svg {
   justify-content: center; /* Centrerer indholdet lodret */
   align-items: center; /* Centrerer indholdet vandret */
 }
+
+
+
+
+/* Tekst over lastbil */
+#emptytrucktext {
+  position: absolute; /* Placér elementet præcist */
+  left: 50%; /* Flyt elementet 50% ind fra venstre */
+  transform: translate(-50%, -50%); /* Centrer elementet i midten */
+  width: 700px; /* Elementets bredde */
+  height: 70px; /* Elementets højde */
+  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent baggrund */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Tilføj skygge */
+  color: #ffffff; /* Hvid tekstfarve */
+  padding: 10px; /* Indvendig afstand */
+  border: 1px solid #b2e1f5; /* Lys blå kant */
+  border-radius: 10px; /* Runde hjørner */
+  display: flex; /* Flex-container */
+  flex-direction: column; /* Lodret indhold */
+  justify-content: center; /* Centrer lodret */
+  align-items: center; /* Centrer horisontalt */
+  margin-top: 100px; /* Afstand fra toppen */  
+}
+
+/* Lastbil Animation Styling */
+#truckAnimationCanvas {
+  background-color: #3b83b9;
+  width: 100%; /* Responsiv bredde */
+  height: 100%; /* Responsiv højde */
+  max-width: 800px; /* Maksimal bredde */
+  max-height: 400px; /* Maksimal højde */
+  display: block; /* Sørger for, at SVG vises som blok-element */
+  margin: 0 auto; /* Centrerer SVG horisontalt */
+  margin-top: 170px; /* Afsted fra toppen af start div */
+}
+

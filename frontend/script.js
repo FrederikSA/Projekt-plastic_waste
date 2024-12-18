@@ -1,4 +1,4 @@
-// FREDERIKS WORLD MAP
+// WORLD MAP
 
 // Fjern tidligere infoboks, hvis den findes
 d3.select("#infoBoksMap").remove();
@@ -144,7 +144,7 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/w
 
 
 
-// Frederiks linechart
+// linechart
 // Her henter vi dataen inde fra server.js
 fetch('/api/linechart')
   .then(response => response.json())
@@ -373,7 +373,7 @@ d3.select("#visualization")
     });
 
 
-    // Niclas Visualisering
+// Stackbarchart Visualisering
 // Dimensioner for SVG-elementet
 const barWidth = 800; // Bredden på SVG-elementet
 const barHeight = 500; // Højden på SVG-elementet
